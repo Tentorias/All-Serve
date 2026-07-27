@@ -107,3 +107,10 @@ O terminal mostrará um endereço local (por padrão `http://localhost:5173/`). 
   1. Faça login com o usuário com papel de **Administrador**.
   2. No painel, clique em **Moderar Avaliações** (`/admin/moderar-avaliacoes`).
 - **Resultado:** O administrador pode visualizar todos os comentários e ocultar/exibir qualquer avaliação do sistema.
+
+### 6. Edição de Perfil e Upload Gratuito de Foto (Sem Firebase Storage)
+- **Ação:**
+  1. Logado como bartender, acesse **"✏️ Editar meu Perfil"** no Painel (ou vá em `/bartender/editar`).
+  2. Selecione uma imagem diretamente do seu celular ou computador (a imagem é redimensionada e otimizada pelo navegador em Base64 leve, sem nenhum custo de servidor ou armazenamento pago), ou informe uma URL externa.
+  3. Altere seu preço por hora, especialidade ou nome e clique em **Salvar Alterações**.
+- **Resultado:** Os dados são atualizados em tempo real no documento do Firestore no plano gratuito Spark e refletidos na busca e no perfil público.

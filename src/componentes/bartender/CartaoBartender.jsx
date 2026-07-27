@@ -27,7 +27,7 @@ export default function CartaoBartender({ bartender }) {
 
       <VStack p={4} align="stretch" spacing={3}>
         <Heading as="h3" size="md" noOfLines={1}>
-          {nome}
+          {nome || bartender.email}
         </Heading>
 
         <Badge colorScheme="teal" alignSelf="flex-start">

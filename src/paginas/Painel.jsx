@@ -85,9 +85,14 @@ export default function Painel() {
             
             {/* Links para Bartenders */}
             {userData.role === 'bartender' && (
-              <Link as={RouterLink} to={`/bartender/${currentUser.uid}`} color="teal.500" fontSize="lg">
-                Ver meu Perfil Público
-              </Link>
+              <>
+                <Link as={RouterLink} to={`/bartender/${currentUser.uid}`} color="teal.500" fontSize="lg">
+                  Ver meu Perfil Público
+                </Link>
+                <Link as={RouterLink} to="/bartender/editar" color="teal.500" fontSize="lg" fontWeight="bold">
+                  ✏️ Editar meu Perfil (Foto, Preço, Especialidade)
+                </Link>
+              </>
             )}
 
             {/* Painel do Admin */}

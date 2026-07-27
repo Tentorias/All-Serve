@@ -14,6 +14,7 @@ import AvaliarBartender from '../paginas/bartender/AvaliarBartender.jsx';
 import PerfilBartender from '../paginas/bartender/PerfilBartender.jsx';
 import ModerarAvaliacoes from '../paginas/admin/ModerarAvaliacoes.jsx';
 import BuscarBartenders from '../paginas/bartender/BuscarBartenders.jsx';
+import EditarPerfil from '../paginas/bartender/EditarPerfil.jsx';
 
 const rotas = createBrowserRouter([
   {
@@ -69,6 +70,14 @@ const rotas = createBrowserRouter([
         element: (
           <RotaProtegida>
             <ListaBartenders />
+          </RotaProtegida>
+        ),
+      },
+      {
+        path: 'bartender/editar',
+        element: (
+          <RotaProtegida>
+            <EditarPerfil />
           </RotaProtegida>
         ),
       },
