@@ -17,6 +17,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config.js';
 import { useAuth } from '../contexto/ContextoAutenticacao.jsx';
 import PainelAdmin from '../componentes/admin/PainelAdmin.jsx';
+import ListaAgendamentos from '../componentes/agendamentos/ListaAgendamentos.jsx';
 
 export default function Painel() {
   const { currentUser } = useAuth();
@@ -93,6 +94,13 @@ export default function Painel() {
                   ✏️ Editar meu Perfil (Foto, Preço, Especialidade)
                 </Link>
               </>
+            )}
+
+            {/* Lista de Agendamentos e Orçamentos para Clientes ou Bartenders */}
+            {(userData.role === 'cliente' || userData.role === 'bartender') && (
+              <Box width="full" pt={2}>
+                <ListaAgendamentos role={userData.role} />
+              </Box>
             )}
 
             {/* Painel do Admin */}

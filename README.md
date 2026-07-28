@@ -114,3 +114,17 @@ O terminal mostrará um endereço local (por padrão `http://localhost:5173/`). 
   2. Selecione uma imagem diretamente do seu celular ou computador (a imagem é redimensionada e otimizada pelo navegador em Base64 leve, sem nenhum custo de servidor ou armazenamento pago), ou informe uma URL externa.
   3. Altere seu preço por hora, especialidade ou nome e clique em **Salvar Alterações**.
 - **Resultado:** Os dados são atualizados em tempo real no documento do Firestore no plano gratuito Spark e refletidos na busca e no perfil público.
+
+### 7. Fluxo de Agendamento e Solicitação de Orçamentos
+- **Ação:**
+  1. Logado como cliente, acesse o perfil público de um bartender e clique em **"📅 Solicitar Orçamento / Reserva"**.
+  2. Preencha o tipo de evento (Casamento, Aniversário, Corporativo, etc.), data, duração em horas (com cálculo automático em tempo real do **Valor Estimado** com base no preço por hora do profissional), local e observações.
+  3. No seu **Painel** (`/painel`), acompanhe o status da solicitação (`Pendente`, `Aceito`, `Recusado` ou `Cancelado`).
+  4. Logado como o bartender requisitado, acesse o **Painel** para visualizar os pedidos recebidos e clique em **Aceitar Orçamento** ou **Recusar**.
+- **Resultado:** As solicitações são armazenadas de forma reativa no Firestore (`agendamentos`) e o status muda em tempo real para ambas as partes.
+
+### 8. Paginação Escalável no Firestore ("Carregar Mais")
+- **Ação:**
+  1. Na página **Buscar Bartenders** (`/buscar`), o sistema busca os profissionais em lotes paginados (utilizando `limit` e `startAfter` do Firestore).
+  2. Caso existam mais profissionais disponíveis além do primeiro lote, um botão **"Carregar Mais Bartenders"** aparece na parte inferior da tela.
+- **Resultado:** Redução drástica nas leituras simultâneas do banco de dados, mantendo a performance da aplicação alta e econômica mesmo com milhares de bartenders cadastrados.
