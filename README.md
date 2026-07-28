@@ -1,130 +1,128 @@
-# All-Serve - Sistema de Bartenders e Autenticação com Papéis (RBAC)
+# 🍸 All-Serve — Plataforma de Bartenders & Coquetelaria para Eventos
 
-Este repositório contém o código-fonte do **All-Serve**, uma aplicação web full-stack que implementa um sistema completo de autenticação, controle de acesso por papéis (RBAC), busca de profissionais e avaliação de serviços de bartenders.
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-Auth%20%2F%20Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Chakra UI](https://img.shields.io/badge/Chakra%20UI-Dark%20Mode-319795?style=for-the-badge&logo=chakraui&logoColor=white)](https://chakra-ui.com/)
+[![RBAC](https://img.shields.io/badge/RBAC-Cliente%20%7C%20Bartender%20%7C%20Admin-2dd4bf?style=for-the-badge)](./DEV_README.md)
 
-A aplicação permite o cadastro de usuários com diferentes perfis (**Cliente**, **Bartender** e **Administrador**) e gerencia dinamicamente o acesso a páginas, rotas e componentes de acordo com a permissão de cada perfil.
-
----
-
-## 🚀 Tecnologias Utilizadas
-
-- **Frontend:** React 18 (com Vite), React Router DOM 7
-- **Backend & Banco de Dados:** Firebase Authentication e Cloud Firestore
-- **Interface e Estilização:** Chakra UI com tema personalizado **Dark Mode Simples e Tranquilo** (`#0f131c`, tipografia Google Fonts Outfit/Inter e cartões em tons noturnos com bordas escuras).
-- **Gerenciamento de Estado:** React Context API (`ContextoAutenticacao`)
+> **Bem-vindo ao All-Serve!** Um marketplace web moderno, seguro e de alto padrão visual projetado para revolucionar a contratação e reserva de bartenders especializados para casamentos, festas e eventos corporativos.
 
 ---
 
-## 📁 Estrutura de Pastas do Projeto
+## 💡 Sobre a Proposta (Resumo Executivo para RH & Recrutadores)
 
-O projeto adota uma arquitetura modular, clara e totalmente em português:
+O **All-Serve** resolve uma necessidade crucial no mercado de eventos: conectar pessoas que buscam coquetelaria de excelência aos melhores profissionais de mixologia e bar, de forma transparente, rápida e segura.
 
-```
-All-Serve/
-├── src/
-│   ├── componentes/
-│   │   ├── comuns/            # Componentes gerais (Layout, BarraNavegacao, IconeEstrela)
-│   │   ├── bartender/         # Componentes do bartender (CartaoBartender)
-│   │   └── admin/             # Componentes administrativos (PainelAdmin)
-│   ├── paginas/
-│   │   ├── autenticacao/      # Login, Cadastro e Recuperação de Senha
-│   │   ├── bartender/         # BuscarBartenders, ListaBartenders, PerfilBartender, AvaliarBartender
-│   │   ├── admin/             # ModerarAvaliacoes
-│   │   ├── Inicio.jsx         # Página inicial
-│   │   └── Painel.jsx         # Painel principal do usuário
-│   ├── rotas/
-│   │   ├── Roteador.jsx       # Configuração geral de rotas
-│   │   ├── RotaProtegida.jsx  # Proteção de rotas para usuários autenticados
-│   │   └── RotaAdmin.jsx      # Proteção de rotas para administradores
-│   ├── contexto/
-│   │   └── ContextoAutenticacao.jsx # Provedor do Firebase Auth
-│   ├── firebase/
-│   │   └── config.js          # Credenciais e inicialização do Firebase
-│   ├── App.jsx
-│   └── main.jsx
-├── public/
-├── package.json
-└── README.md
-```
+Diferente de sistemas genéricos, o **All-Serve** foi idealizado com uma arquitetura de **Controle de Acesso Baseado em Papéis (RBAC)** em que **cada perfil possui sua própria experiência de uso, textos e ferramentas exclusivas**:
+- **Clientes** exploram vitrines de profissionais, montam o carrinho para seus eventos e avaliam os serviços prestados.
+- **Bartenders** gerenciam sua reputação, valores por hora, especialidades e colaboram em parcerias com colegas do setor.
+- **Administradores** supervisionam a saúde da plataforma com auditoria financeira, moderação de avaliações e gestão de usuários.
 
 ---
 
-## ⚙️ Configuração e Execução Local
+## ✨ Principais Diferenciais da Plataforma
 
-### 1. Pré-requisitos
-- **Node.js** (versão 18 ou superior instalada na máquina).
+- 🎨 **Design Noturno Premium (Dark Mode):** Interface visual focada em elegância, contraste suave e usabilidade, remetendo aos melhores bares contemporâneos (`#0f131c` e tons turquesa/teal).
+- 🔐 **Autenticação com Controle de Papéis (RBAC):** Login e cadastro adaptativos em 3 papéis (**Cliente**, **Bartender** e **Administrador**), alterando botões, modais e funções em tempo real.
+- 🍸 **Vitrine Inteligente & Filtros em Memória:** Pesquisa instantânea por especialidade ("Drinks Clássicos", "Coquetelaria Autoral", etc.) com sistema de resiliência a acentos e dados.
+- 🛒 **Carrinho de Compras & Orçamentos:** Permite ao cliente calcular orçamentos por hora, somar doses avulsas do cardápio oficial e simular checkouts seguros.
+- ⭐ **Avaliações Dinâmicas:** Sistema de reputação por estrelas (1 a 5) com textos e labels contextualizados para avaliação de evento (Cliente) ou feedback profissional (Bartender).
 
-### 2. Instalar as Dependências
-Na raiz do repositório, execute:
+---
+
+## 📸 Vitrine Visual do Sistema
+
+### 1. Pesquisa e Filtros de Bartenders
+A vitrine permite explorar a rede de profissionais por especialidade e valor, exibindo nota média em estrelas e acesso direto a orçamentos e parcerias.
+
+![Vitrine de Bartenders](docs/screenshots/vitrine.png)
+
+---
+
+### 2. Carrinho de Compras & Gateway Simulado
+O cliente revisa os serviços contratados, calcula o total por horas e adiciona doses extras do cardápio padrão antes de simular o pagamento.
+
+![Carrinho de Compras](docs/screenshots/carrinho.png)
+
+---
+
+### 3. Cadastro Inteligente com Seleção de Perfil (RBAC)
+No momento da criação da conta, o usuário escolhe se deseja atuar como **Cliente** ou como **Bartender**, definindo suas permissões na plataforma.
+
+![Cadastro com RBAC](docs/screenshots/cadastro.png)
+
+---
+
+### 4. Gestão de Perfil Profissional
+Bartenders possuem acesso à edição de perfil, alterando nome artístico, especialidade principal, valor da hora trabalhada e foto em Base64 sem custo adicional.
+
+![Edição de Perfil de Bartender](docs/screenshots/perfil.png)
+
+---
+
+### 5. Avaliação de Serviços e Eventos
+Ao concluir um evento, clientes ou parceiros avaliam o profissional com estrelas e comentários em um modal interativo e reativo.
+
+![Avaliação de Bartender](docs/screenshots/avaliacao.png)
+
+---
+
+## 👥 Como Funciona para Cada Perfil?
+
+### 👩‍💼 1. Para o Cliente
+- Acessa o catálogo de profissionais de coquetelaria em `/buscar`.
+- Solicita orçamentos para eventos (Casamentos, Confraternizações, Festas).
+- Adiciona contratações ao **Carrinho de Compras** e finaliza pagamentos simulados.
+- Deixa feedback na seção **"Avaliar Bartender do Evento"**.
+
+### 🍸 2. Para o Bartender (Profissional)
+- Exibe suas habilidades e preço/hora na vitrine pública.
+- Recebe propostas de trabalho para eventos e comemorações.
+- Pode convidar outros bartenders para **🤝 Propor Parceria / Colaboração** em eventos maiores.
+- Deixa feedback construtivo na seção **"Avaliação entre Colegas Bartenders"**.
+
+### 🛡️ 3. Para o Administrador
+- Supervisiona contas do sistema através do módulo de gestão de usuários.
+- Pode banir ou reativar perfis para manter a segurança da plataforma.
+- Audita relatórios financeiros de vendas e modera comentários denunciados.
+
+---
+
+## 🚀 Como Rodar o Projeto (Guia Rápido)
+
+O projeto foi configurado para ser iniciado com apenas **2 comandos**:
+
+### 1. Instalar Dependências
 ```bash
 npm install
 ```
 
-### 3. Configurar as Chaves do Firebase
-As credenciais do projeto estão centralizadas no arquivo `src/firebase/config.js`. Caso deseje utilizar o seu próprio projeto do Firebase:
-1. Abra `src/firebase/config.js`.
-2. Substitua os dados do objeto `firebaseConfig` pelas credenciais do seu aplicativo no [Firebase Console](https://console.firebase.google.com/).
-
-### 4. Executar a Aplicação
-Inicie o servidor de desenvolvimento:
+### 2. Iniciar Servidor de Desenvolvimento
 ```bash
 npm run dev
 ```
-O terminal mostrará um endereço local (por padrão `http://localhost:5173/`). Abra-o em seu navegador.
+
+Acesse a plataforma diretamente em: **`http://localhost:5173`** 🍸
+
+> *Dica para testes:* Você pode criar uma conta gratuita selecionando *"Eu sou: Cliente"* ou *"Eu sou: Bartender"* no cadastro, ou testar a vitrine pública sem login!
 
 ---
 
-## 🧪 Demonstração de Funcionalidades
+## 🛠️ Documentação Técnica para Desenvolvedores
 
-### 1. Rota Protegida (Usuário Não Autenticado)
-- **Ação:** Tente acessar a URL `/painel` (ou `/dashboard`) diretamente no navegador sem fazer login.
-- **Resultado:** A aplicação redirecionará automaticamente para a página de `/login`.
+Se você é **Desenvolvedor, Tech Lead ou Revisor de Código** e deseja analisar a modelagem NoSQL, segurança do Firebase, regras de RBAC, rotas protegidas e estratégias de performance implementadas na aplicação:
 
-### 2. Cadastro com Diferentes Perfis
-- **Ação:**
-  1. Acesse `/cadastro` (ou clique em "Criar Conta").
-  2. Cadastre um usuário selecionando o perfil **Cliente**.
-  3. Cadastre um usuário selecionando o perfil **Bartender** (preencha especialidade, preço por hora e foto de perfil).
-  4. Cadastre um usuário selecionando o perfil **Administrador**.
-- **Resultado no Firebase:**
-  - Em **Authentication**, os usuários estarão registrados com os respectivos e-mails.
-  - Em **Firestore**, na coleção `users`, cada usuário terá seu documento contendo o campo `role` (`cliente`, `bartender` ou `administrador`).
+### 👉 [Acesse o Guia Completo do Desenvolvedor (DEV_README.md)](./DEV_README.md)
 
-### 3. Busca e Filtro de Bartenders
-- **Ação:**
-  1. Logado como cliente, acesse **"Buscar Bartenders"** na barra de navegação (ou vá em `/buscar`).
-  2. Filtre por especialidade ou ordene por menor preço, maior preço ou melhor avaliação.
-- **Resultado:** O sistema exibe cartões interativos dos bartenders cadastrados com média de notas em estrelas.
+No arquivo técnico você encontrará:
+- Diagramas da Arquitetura SPA (React 18 + Vite + Chakra UI)
+- Estrutura Completa das Coleções e Subcoleções no Firestore (`/users`, `/avaliacoes`, `/agendamentos`, `/cardapio_plataforma`)
+- Explicação do sistema polimórfico de componentes e rotas por papel (`userRole`)
+- Scripts de linting (`npm run lint`) e build de produção (`npm run build`)
 
-### 4. Avaliação e Comentários
-- **Ação:**
-  1. Na página do bartender, clique em **Avaliar**.
-  2. Selecione uma nota de 1 a 5 estrelas (ícones SVG customizados) e deixe um comentário.
-- **Resultado:** A avaliação é salva no Firestore e a nota média do profissional é atualizada automaticamente em seu perfil público.
+---
 
-### 5. Moderação Administrativa (RBAC)
-- **Ação:**
-  1. Faça login com o usuário com papel de **Administrador**.
-  2. No painel, clique em **Moderar Avaliações** (`/admin/moderar-avaliacoes`).
-- **Resultado:** O administrador pode visualizar todos os comentários e ocultar/exibir qualquer avaliação do sistema.
-
-### 6. Edição de Perfil e Upload Gratuito de Foto (Sem Firebase Storage)
-- **Ação:**
-  1. Logado como bartender, acesse **"✏️ Editar meu Perfil"** no Painel (ou vá em `/bartender/editar`).
-  2. Selecione uma imagem diretamente do seu celular ou computador (a imagem é redimensionada e otimizada pelo navegador em Base64 leve, sem nenhum custo de servidor ou armazenamento pago), ou informe uma URL externa.
-  3. Altere seu preço por hora, especialidade ou nome e clique em **Salvar Alterações**.
-- **Resultado:** Os dados são atualizados em tempo real no documento do Firestore no plano gratuito Spark e refletidos na busca e no perfil público.
-
-### 7. Fluxo de Agendamento e Solicitação de Orçamentos
-- **Ação:**
-  1. Logado como cliente, acesse o perfil público de um bartender e clique em **"📅 Solicitar Orçamento / Reserva"**.
-  2. Preencha o tipo de evento (Casamento, Aniversário, Corporativo, etc.), data, duração em horas (com cálculo automático em tempo real do **Valor Estimado** com base no preço por hora do profissional), local e observações.
-  3. No seu **Painel** (`/painel`), acompanhe o status da solicitação (`Pendente`, `Aceito`, `Recusado` ou `Cancelado`).
-  4. Logado como o bartender requisitado, acesse o **Painel** para visualizar os pedidos recebidos e clique em **Aceitar Orçamento** ou **Recusar**.
-- **Resultado:** As solicitações são armazenadas de forma reativa no Firestore (`agendamentos`) e o status muda em tempo real para ambas as partes.
-
-### 8. Paginação Escalável no Firestore ("Carregar Mais")
-- **Ação:**
-  1. Na página **Buscar Bartenders** (`/buscar`), o sistema busca os profissionais em lotes paginados (utilizando `limit` e `startAfter` do Firestore).
-  2. Caso existam mais profissionais disponíveis além do primeiro lote, um botão **"Carregar Mais Bartenders"** aparece na parte inferior da tela.
-- **Resultado:** Redução drástica nas leituras simultâneas do banco de dados, mantendo a performance da aplicação alta e econômica mesmo com milhares de bartenders cadastrados.
+<p align="center">
+  <b>All-Serve © 2026</b> — Conectando pessoas e eventos à melhor coquetelaria profissional.
+</p>

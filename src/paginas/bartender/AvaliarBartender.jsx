@@ -21,7 +21,7 @@ import IconeEstrela from '../../componentes/comuns/IconeEstrela.jsx';
 
 export default function AvaliarBartender() {
   const { bartenderId } = useParams();
-  const { currentUser } = useAuth();
+  const { currentUser, userRole } = useAuth();
   const [nota, setNota] = useState(0);
   const [comentario, setComentario] = useState('');
   const navigate = useNavigate();
@@ -91,7 +91,11 @@ export default function AvaliarBartender() {
       mt={10}
     >
       <VStack spacing={6}>
-        <Heading color="white">Avaliar Bartender</Heading>
+        <Heading color="white">
+          {userRole === 'bartender'
+            ? 'Avaliação entre Colegas Bartenders'
+            : 'Avaliar Bartender do Evento'}
+        </Heading>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <VStack spacing={4}>
             <FormControl isRequired>
@@ -115,7 +119,11 @@ export default function AvaliarBartender() {
             <FormControl>
               <FormLabel>Comentário (opcional)</FormLabel>
               <Textarea
-                placeholder="Deixe seu feedback sobre o serviço..."
+                placeholder={
+                  userRole === 'bartender'
+                    ? 'Compartilhe seu feedback profissional sobre colaboração, pontualidade e mixologia...'
+                    : 'Conte-nos como foi a pontualidade, simpatia e qualidade dos coquetéis no seu evento...'
+                }
                 value={comentario}
                 onChange={(e) => setComentario(e.target.value)}
               />

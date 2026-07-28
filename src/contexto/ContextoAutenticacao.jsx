@@ -2,17 +2,35 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase/config.js';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase/config.js';
 
 const AuthContext = createContext();
 
 export function ProvedorAutenticacao({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+      if (user) {
+        try {
+          const docRef = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setUserRole(docSnap.data().role || 'cliente');
+          } else {
+            setUserRole('cliente');
+          }
+        } catch (e) {
+          console.error('Erro ao buscar role do usuário:', e);
+          setUserRole('cliente');
+        }
+      } else {
+        setUserRole(null);
+      }
       setLoading(false);
     });
     return unsubscribe;
@@ -20,7 +38,8 @@ export function ProvedorAutenticacao({ children }) {
 
   const value = {
     currentUser,
-    loading 
+    userRole,
+    loading,
   };
 
   return (

@@ -1,7 +1,7 @@
 // src/paginas/bartender/PerfilBartender.jsx 
 
 import { useEffect, useState } from 'react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   Box,
   Heading,
@@ -44,12 +44,46 @@ import {
 import { db } from '../../firebase/config.js';
 import IconeEstrela from '../../componentes/comuns/IconeEstrela.jsx';
 import { useAuth } from '../../contexto/ContextoAutenticacao.jsx';
+import { useCarrinho } from '../../contexto/ContextoCarrinho.jsx';
 
 export default function PerfilBartender() {
   const { bartenderId } = useParams();
-  const { currentUser } = useAuth();
+  const { currentUser, userRole } = useAuth();
+  const { adicionarItem } = useCarrinho();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+
+  const handleAbrirReserva = () => {
+    if (!currentUser) {
+      toast({
+        title: 'Login Necessário 🍸',
+        description:
+          'Para contratar ou agendar com este bartender, por favor faça login ou crie uma conta grátis!',
+        status: 'info',
+        duration: 3500,
+        isClosable: true,
+      });
+      navigate('/login');
+      return;
+    }
+    onOpen();
+  };
+
+  const handleAvaliar = () => {
+    if (!currentUser) {
+      toast({
+        title: 'Login Necessário ⭐',
+        description: 'Você precisa estar logado para enviar uma avaliação.',
+        status: 'info',
+        duration: 3500,
+        isClosable: true,
+      });
+      navigate('/login');
+      return;
+    }
+    navigate(`/avaliar/${bartenderId}`);
+  };
 
   const [bartender, setBartender] = useState(null);
   const [avaliacoes, setAvaliations] = useState([]);
@@ -241,7 +275,7 @@ export default function PerfilBartender() {
                   ) : (
                     <>
                       <Button
-                        onClick={onOpen}
+                        onClick={handleAbrirReserva}
                         colorScheme="teal"
                         size="md"
                         px={6}
@@ -249,18 +283,58 @@ export default function PerfilBartender() {
                         fontWeight="bold"
                         width={{ base: 'full', sm: 'auto' }}
                       >
-                        📅 Solicitar Reserva / Parceria
+                        {userRole === 'bartender'
+                          ? '🤝 Propor Parceria / Colaboração'
+                          : userRole === 'administrador'
+                          ? '📋 Registrar Agendamento'
+                          : '📅 Solicitar Reserva / Orçamento'}
                       </Button>
+                      {(!userRole || userRole === 'cliente') && (
+                        <Button
+                          onClick={() => {
+                            if (!currentUser) {
+                              toast({
+                                title: 'Login Necessário 🛒',
+                                description:
+                                  'Para adicionar serviços ao seu carrinho e finalizar compras, faça login ou crie sua conta grátis!',
+                                status: 'info',
+                                duration: 3500,
+                                isClosable: true,
+                              });
+                              navigate('/login');
+                              return;
+                            }
+                            adicionarItem({
+                              id: bartenderId,
+                              nome: `Contratação - ${bartender.nome || bartender.email}`,
+                              preco: Number(bartender.precoPorHora) || 80,
+                              categoria: 'Serviço de Bartender',
+                              bartenderId: bartenderId,
+                              bartenderNome: bartender.nome || bartender.email,
+                            });
+                          }}
+                          colorScheme="teal"
+                          variant="outline"
+                          size="md"
+                          px={6}
+                          boxShadow="lg"
+                          fontWeight="bold"
+                          width={{ base: 'full', sm: 'auto' }}
+                        >
+                          🛒 Adicionar ao Carrinho
+                        </Button>
+                      )}
                       <Button
-                        as={RouterLink}
-                        to={`/avaliar/${bartenderId}`}
+                        onClick={handleAvaliar}
                         colorScheme="teal"
                         variant="outline"
                         size="md"
                         px={6}
                         width={{ base: 'full', sm: 'auto' }}
                       >
-                        ⭐ Avaliar Bartender / Colega
+                        {userRole === 'bartender'
+                          ? '⭐ Avaliar Colega Profissional'
+                          : '⭐ Avaliar Bartender'}
                       </Button>
                     </>
                   )}
@@ -274,7 +348,9 @@ export default function PerfilBartender() {
           {/* Seção de Comentários e Avaliações */}
           <Box>
             <Heading size="md" mb={4} color="white">
-              Avaliações de Clientes e Colegas Profissionais
+              {userRole === 'bartender'
+                ? 'Avaliações e Recomendações Profissionais (Colegas & Clientes)'
+                : 'Avaliações e Comentários dos Clientes'}
             </Heading>
             {avaliacoes.length > 0 ? (
               <VStack spacing={4} align="stretch">
@@ -342,12 +418,18 @@ export default function PerfilBartender() {
               color="white"
               borderRadius="xl"
             >
-              <ModalHeader>Solicitar Orçamento / Reserva</ModalHeader>
+              <ModalHeader>
+                {userRole === 'bartender'
+                  ? 'Propor Parceria / Trabalho em Conjunto'
+                  : 'Solicitar Orçamento / Reserva para Evento'}
+              </ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                 <VStack spacing={4} align="stretch">
                   <Text fontSize="sm" color="gray.300">
-                    Preencha os dados do seu evento para enviar um pedido a{' '}
+                    {userRole === 'bartender'
+                      ? 'Envie sua proposta de colaboração, evento ou trabalho em conjunto para '
+                      : 'Preencha os dados do seu evento para enviar um pedido de orçamento a '}
                     <strong style={{ color: '#fff' }}>{bartender.nome || bartender.email}</strong>.
                   </Text>
 

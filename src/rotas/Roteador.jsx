@@ -9,12 +9,12 @@ import Painel from '../paginas/Painel.jsx';
 import RotaProtegida from './RotaProtegida.jsx';
 import RotaAdmin from './RotaAdmin.jsx';
 import Layout from '../componentes/comuns/Layout.jsx';
-import ListaBartenders from '../paginas/bartender/ListaBartenders.jsx';
 import AvaliarBartender from '../paginas/bartender/AvaliarBartender.jsx';
 import PerfilBartender from '../paginas/bartender/PerfilBartender.jsx';
 import ModerarAvaliacoes from '../paginas/admin/ModerarAvaliacoes.jsx';
 import BuscarBartenders from '../paginas/bartender/BuscarBartenders.jsx';
 import EditarPerfil from '../paginas/bartender/EditarPerfil.jsx';
+import CarrinhoCheckout from '../paginas/cliente/CarrinhoCheckout.jsx';
 
 const rotas = createBrowserRouter([
   {
@@ -59,19 +59,11 @@ const rotas = createBrowserRouter([
       },
       {
         path: 'buscar',
-        element: (
-          <RotaProtegida>
-            <BuscarBartenders />
-          </RotaProtegida>
-        ),
+        element: <BuscarBartenders />,
       },
       {
-        path: 'bartenders',
-        element: (
-          <RotaProtegida>
-            <ListaBartenders />
-          </RotaProtegida>
-        ),
+        path: 'bartenders', // alias redirecionando para a busca completa
+        element: <Navigate to="/buscar" replace />,
       },
       {
         path: 'bartender/editar',
@@ -83,11 +75,7 @@ const rotas = createBrowserRouter([
       },
       {
         path: 'bartender/:bartenderId',
-        element: (
-          <RotaProtegida>
-            <PerfilBartender />
-          </RotaProtegida>
-        ),
+        element: <PerfilBartender />,
       },
       {
         path: 'avaliar/:bartenderId',
@@ -106,6 +94,10 @@ const rotas = createBrowserRouter([
             </RotaAdmin>
           </RotaProtegida>
         ),
+      },
+      {
+        path: 'carrinho',
+        element: <CarrinhoCheckout />,
       },
     ],
   },

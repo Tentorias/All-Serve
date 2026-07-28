@@ -9,13 +9,18 @@ import {
   HStack,
   Icon,
   Button,
-  Link as ChakraLink,
   Heading,
+  useToast,
 } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import IconeEstrela from '../comuns/IconeEstrela.jsx';
+import { useAuth } from '../../contexto/ContextoAutenticacao.jsx';
 
 export default function CartaoBartender({ bartender }) {
+  const { currentUser, userRole } = useAuth();
+  const toast = useToast();
+  const navigate = useNavigate();
+
   const {
     id,
     nome,
@@ -28,6 +33,22 @@ export default function CartaoBartender({ bartender }) {
 
   const placeholderImage =
     'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="250" viewBox="0 0 400 250" fill="%23161c28"><rect width="400" height="250" fill="%2311151f"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="26" fill="%232dd4bf">🍸 All-Serve Bartender</text></svg>';
+
+  const handleContratar = () => {
+    if (!currentUser) {
+      toast({
+        title: 'Login Necessário 🍸',
+        description:
+          'Para contratar ou reservar com este bartender, faça login ou crie sua conta grátis!',
+        status: 'info',
+        duration: 3500,
+        isClosable: true,
+      });
+      navigate('/login');
+      return;
+    }
+    navigate(`/bartender/${id}`);
+  };
 
   return (
     <Box
@@ -84,17 +105,33 @@ export default function CartaoBartender({ bartender }) {
           </HStack>
         </HStack>
 
-        <ChakraLink as={RouterLink} to={`/bartender/${id}`} pt={2}>
+        <HStack spacing={2} pt={2}>
           <Button
-            width="full"
+            as={RouterLink}
+            to={`/bartender/${id}`}
+            flex={1}
             colorScheme="teal"
             variant="outline"
             size="sm"
             _hover={{ bg: 'rgba(45, 212, 191, 0.1)' }}
           >
-            Ver Perfil Completo
+            Ver Perfil
           </Button>
-        </ChakraLink>
+          <Button
+            flex={1}
+            colorScheme="teal"
+            variant="solid"
+            size="sm"
+            fontWeight="bold"
+            onClick={handleContratar}
+          >
+            {userRole === 'bartender'
+              ? '🤝 Parceria'
+              : userRole === 'administrador'
+              ? '🛡️ Ver Detalhes'
+              : '📅 Contratar'}
+          </Button>
+        </HStack>
       </VStack>
     </Box>
   );

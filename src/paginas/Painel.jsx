@@ -111,28 +111,14 @@ export default function Painel() {
                 </Text>
                 <HStack spacing={4} flexWrap="wrap">
                   {userData.role === 'cliente' && (
-                    <>
-                      <Button
-                        as={RouterLink}
-                        to="/buscar"
-                        colorScheme="teal"
-                        size="sm"
-                      >
-                        🔍 Buscar Bartenders
-                      </Button>
-                      <Button
-                        as={RouterLink}
-                        to="/bartenders"
-                        variant="outline"
-                        colorScheme="teal"
-                        color="teal.300"
-                        borderColor="teal.500"
-                        _hover={{ bg: 'rgba(49, 151, 149, 0.15)', color: 'white' }}
-                        size="sm"
-                      >
-                        ⭐ Avaliar Bartenders
-                      </Button>
-                    </>
+                    <Button
+                      as={RouterLink}
+                      to="/buscar"
+                      colorScheme="teal"
+                      size="sm"
+                    >
+                      🔍 Explorar Bartenders (Contratar & Avaliar)
+                    </Button>
                   )}
 
                   {userData.role === 'bartender' && (
@@ -163,19 +149,7 @@ export default function Painel() {
                         colorScheme="blue"
                         size="sm"
                       >
-                        🤝 Contratar / Buscar Colegas
-                      </Button>
-                      <Button
-                        as={RouterLink}
-                        to="/bartenders"
-                        variant="outline"
-                        colorScheme="blue"
-                        color="blue.300"
-                        borderColor="blue.500"
-                        _hover={{ bg: 'rgba(66, 153, 225, 0.15)', color: 'white' }}
-                        size="sm"
-                      >
-                        ⭐ Avaliar Colegas
+                        🤝 Rede de Colegas (Parcerias & Avaliações)
                       </Button>
                     </>
                   )}

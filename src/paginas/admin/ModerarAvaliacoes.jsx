@@ -1,6 +1,6 @@
 // src/paginas/admin/ModerarAvaliacoes.jsx
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
   Box,
   Heading,
@@ -13,7 +13,7 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
-import { collectionGroup, query, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase/config.js';
 
 export default function ModerarAvaliacoes() {
@@ -21,26 +21,49 @@ export default function ModerarAvaliacoes() {
   const [loading, setLoading] = useState(true);
   const toast = useToast();
 
-  const fetchAvaliations = async () => {
+  const fetchAvaliations = useCallback(async () => {
+    setLoading(true);
     try {
-      const q = query(collectionGroup(db, 'avaliacoes'));
-      const querySnapshot = await getDocs(q);
-      const allAvaliations = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        bartenderId: doc.ref.parent.parent.id, // Pega o ID do bartender
-        ...doc.data(),
-      }));
+      const usersSnap = await getDocs(collection(db, 'users'));
+      const bartenders = usersSnap.docs
+        .map((d) => ({ id: d.id, ...d.data() }))
+        .filter((u) => u.role === 'bartender');
+
+      let allAvaliations = [];
+      for (const bart of bartenders) {
+        try {
+          const avSnap = await getDocs(
+            collection(db, 'users', bart.id, 'avaliacoes')
+          );
+          const avs = avSnap.docs.map((docItem) => ({
+            id: docItem.id,
+            bartenderId: bart.id,
+            bartenderEmail: bart.email || 'Bartender',
+            ...docItem.data(),
+          }));
+          allAvaliations = [...allAvaliations, ...avs];
+        } catch {
+          // Ignorar se a subcoleção não existir
+        }
+      }
       setAvaliations(allAvaliations);
     } catch (error) {
       console.error('Erro ao buscar avaliações:', error);
+      toast({
+        title: 'Erro ao buscar avaliações',
+        description: error.message,
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   useEffect(() => {
     fetchAvaliations();
-  }, []);
+  }, [fetchAvaliations]);
 
   const handleToggleVisibilidade = async (bartenderId, avaliacaoId, currentStatus) => {
     const avaliacaoRef = doc(db, 'users', bartenderId, 'avaliacoes', avaliacaoId);

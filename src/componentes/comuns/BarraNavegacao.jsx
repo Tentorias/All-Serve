@@ -3,69 +3,79 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Box, Flex, Link, Button, Heading, Text, HStack } from '@chakra-ui/react';
 import { useAuth } from '../../contexto/ContextoAutenticacao.jsx';
+import { useCarrinho } from '../../contexto/ContextoCarrinho.jsx';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase/config.js';
 
 export default function BarraNavegacao() {
-  const { currentUser } = useAuth();
+  const { currentUser, userRole } = useAuth();
+  const { totalItens } = useCarrinho();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/login');
+      navigate('/');
     } catch (error) {
-      console.error("Erro ao fazer logout:", error);
+      console.error('Erro ao sair:', error);
     }
   };
 
   return (
     <Box
-      as="nav"
-      bg="rgba(22, 28, 40, 0.85)"
-      backdropFilter="blur(12px)"
+      bg="#161c28"
       borderBottom="1px solid"
       borderColor="#263147"
-      px={6}
+      px={8}
       py={4}
+      boxShadow="lg"
       position="sticky"
       top={0}
-      zIndex={1000}
+      zIndex="sticky"
     >
-      <Flex maxW="container.xl" margin="auto" justify="space-between" align="center">
-        {/* Logo */}
+      <Flex maxW="container.xl" mx="auto" align="center" justify="space-between">
+        {/* Logo/Título da Plataforma */}
         <Heading
           as={RouterLink}
           to="/"
-          size="md"
-          letterSpacing="wide"
+          size="lg"
+          color="white"
+          _hover={{ textDecoration: 'none' }}
           display="flex"
           alignItems="center"
           gap={2}
-          _hover={{ opacity: 0.9 }}
         >
-          <span>🍹</span>
-          <Text as="span" color="white" fontWeight="800">
-            All
-          </Text>
-          <Text as="span" color="teal.400" fontWeight="800">
-            Serve
+          <span>🍸</span>
+          <Text as="span" bgGradient="linear(to-r, teal.300, #81E6D9)" bgClip="text">
+            All-Serve
           </Text>
         </Heading>
 
         {/* Links de navegação */}
         <HStack spacing={6} align="center">
+          <Link
+            as={RouterLink}
+            to="/buscar"
+            color="gray.300"
+            fontWeight="500"
+            _hover={{ color: 'teal.300', textDecoration: 'none' }}
+          >
+            Buscar Bartenders
+          </Link>
+          {currentUser && (!userRole || userRole === 'cliente') && (
+            <Button
+              as={RouterLink}
+              to="/carrinho"
+              size="sm"
+              colorScheme="teal"
+              variant="solid"
+              fontWeight="bold"
+            >
+              🛒 Carrinho {totalItens > 0 && `(${totalItens})`}
+            </Button>
+          )}
           {currentUser ? (
             <>
-              <Link
-                as={RouterLink}
-                to="/buscar"
-                color="gray.300"
-                fontWeight="500"
-                _hover={{ color: 'teal.300', textDecoration: 'none' }}
-              >
-                Buscar Bartenders
-              </Link>
               <Link
                 as={RouterLink}
                 to="/painel"
