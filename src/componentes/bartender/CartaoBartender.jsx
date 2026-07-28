@@ -26,7 +26,8 @@ export default function CartaoBartender({ bartender }) {
     totalAvaliacoes = 0,
   } = bartender;
 
-  const placeholderImage = 'https://via.placeholder.com/400x250/161c28/94a3b8?text=Bartender';
+  const placeholderImage =
+    'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="250" viewBox="0 0 400 250" fill="%23161c28"><rect width="400" height="250" fill="%2311151f"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="26" fill="%232dd4bf">🍸 All-Serve Bartender</text></svg>';
 
   return (
     <Box

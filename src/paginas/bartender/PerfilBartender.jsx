@@ -12,7 +12,7 @@ import {
   HStack,
   Icon,
   Divider,
-  Image,
+  Avatar,
   Badge,
   Button,
   Flex,
@@ -150,106 +150,140 @@ export default function PerfilBartender() {
     );
   }
 
-  const placeholderImage = 'https://via.placeholder.com/300x200?text=Bartender';
   const valorEstimadoCalculado = ((Number(bartender?.precoPorHora) || 0) * (Number(horas) || 1)).toFixed(2);
 
   return (
-    <Box p={8} maxWidth="900px" margin="auto">
+    <Box p={{ base: 4, md: 8 }} maxWidth="960px" margin="auto">
       {bartender ? (
         <VStack spacing={8} align="stretch">
-          {/* Cabeçalho do Perfil */}
-          <Flex
-            direction={{ base: 'column', md: 'row' }}
-            align="center"
-            gap={6}
-            p={6}
+          {/* Cabeçalho do Perfil - Hero Card */}
+          <Box
+            bg="#161c28"
             borderWidth={1}
             borderColor="#263147"
-            borderRadius="lg"
-            boxShadow="md"
-            bg="#161c28"
+            borderRadius="2xl"
+            boxShadow="2xl"
+            overflow="hidden"
           >
-            <Image
-              src={bartender.fotoURL || placeholderImage}
-              alt={`Foto de ${bartender.nome || bartender.email}`}
-              boxSize="150px"
-              objectFit="cover"
-              borderRadius="full"
-              border="3px solid"
-              borderColor="teal.500"
+            {/* Banner superior decorativo */}
+            <Box
+              h="140px"
+              bgGradient="linear(to-r, teal.900, #161c28, blue.900)"
+              position="relative"
             />
-            <VStack align={{ base: 'center', md: 'flex-start' }} spacing={2} flex={1}>
-              <Heading size="lg">{bartender.nome || bartender.email}</Heading>
-              {bartender.especialidade && (
-                <Badge colorScheme="teal" fontSize="0.9em" px={2} py={1}>
-                  {bartender.especialidade}
-                </Badge>
-              )}
-              {bartender.precoPorHora !== undefined && (
-                <Text fontWeight="bold" fontSize="lg" color="teal.300">
-                  R$ {bartender.precoPorHora}/hora
-                </Text>
-              )}
-              <HStack spacing={1}>
-                <Text fontSize="xl" fontWeight="bold">{media.toFixed(1)}</Text>
-                <Icon as={IconeEstrela} color="gold" boxSize={6} />
-                <Text color="gray.500">({avaliacoes.length} avaliações)</Text>
-              </HStack>
-            </VStack>
 
-            {/* Ações: Botão Editar para o Próprio Bartender ou Botões para Clientes */}
-            <VStack spacing={3}>
-              {currentUser && currentUser.uid === bartenderId ? (
-                <Button
-                  as={RouterLink}
-                  to="/bartender/editar"
-                  colorScheme="teal"
-                  size="md"
-                  width="full"
+            {/* Conteúdo principal do card de perfil */}
+            <Box p={{ base: 6, md: 8 }} pt={0}>
+              <Flex
+                direction={{ base: 'column', md: 'row' }}
+                justify="space-between"
+                align={{ base: 'center', md: 'flex-end' }}
+                mt="-60px"
+                mb={4}
+                gap={6}
+                flexWrap="wrap"
+              >
+                {/* Avatar + Informações do Bartender */}
+                <Flex direction={{ base: 'column', sm: 'row' }} align="center" gap={6}>
+                  <Avatar
+                    size="2xl"
+                    name={bartender.nome || bartender.email}
+                    src={bartender.fotoURL}
+                    border="4px solid"
+                    borderColor="#161c28"
+                    boxShadow="xl"
+                    bg="teal.600"
+                    color="white"
+                  />
+                  <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={2} pt={{ base: 0, sm: 12 }}>
+                    <Heading size="lg" color="white" textAlign={{ base: 'center', sm: 'left' }}>
+                      {bartender.nome || bartender.email}
+                    </Heading>
+                    <HStack spacing={2} flexWrap="wrap" justify={{ base: 'center', sm: 'flex-start' }}>
+                      <Badge colorScheme="teal" px={3} py={1} borderRadius="full" fontSize="sm">
+                        {bartender.especialidade || 'Coquetelaria Especializada'}
+                      </Badge>
+                      {bartender.precoPorHora !== undefined && (
+                        <Text fontWeight="bold" fontSize="lg" color="teal.300">
+                          R$ {bartender.precoPorHora}/hora
+                        </Text>
+                      )}
+                    </HStack>
+                    <HStack spacing={2} pt={1}>
+                      <Icon as={IconeEstrela} color="gold" boxSize={5} />
+                      <Text fontSize="lg" fontWeight="bold" color="white">{media.toFixed(1)}</Text>
+                      <Text color="gray.400" fontSize="sm">
+                        ({avaliacoes.length} {avaliacoes.length === 1 ? 'avaliação' : 'avaliações'})
+                      </Text>
+                    </HStack>
+                  </VStack>
+                </Flex>
+
+                {/* Ações do Perfil (Botões bem alinhados sem sobrepor ou estourar a caixa) */}
+                <Flex
+                  direction={{ base: 'column', sm: 'row' }}
+                  gap={3}
+                  width={{ base: 'full', md: 'auto' }}
+                  pt={{ base: 4, md: 8 }}
                 >
-                  ✏️ Editar Perfil
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    onClick={onOpen}
-                    colorScheme="teal"
-                    size="md"
-                    width="full"
-                    fontWeight="bold"
-                  >
-                    📅 Solicitar Orçamento / Reserva
-                  </Button>
-                  <Button
-                    as={RouterLink}
-                    to={`/avaliar/${bartenderId}`}
-                    colorScheme="teal"
-                    variant="outline"
-                    size="md"
-                    width="full"
-                  >
-                    ⭐ Avaliar Bartender
-                  </Button>
-                </>
-              )}
-            </VStack>
-          </Flex>
+                  {currentUser && currentUser.uid === bartenderId ? (
+                    <Button
+                      as={RouterLink}
+                      to="/bartender/editar"
+                      colorScheme="teal"
+                      size="md"
+                      px={6}
+                      boxShadow="lg"
+                      width={{ base: 'full', sm: 'auto' }}
+                    >
+                      ✏️ Editar Meu Perfil
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={onOpen}
+                        colorScheme="teal"
+                        size="md"
+                        px={6}
+                        boxShadow="lg"
+                        fontWeight="bold"
+                        width={{ base: 'full', sm: 'auto' }}
+                      >
+                        📅 Solicitar Orçamento / Reserva
+                      </Button>
+                      <Button
+                        as={RouterLink}
+                        to={`/avaliar/${bartenderId}`}
+                        colorScheme="teal"
+                        variant="outline"
+                        size="md"
+                        px={6}
+                        width={{ base: 'full', sm: 'auto' }}
+                      >
+                        ⭐ Avaliar Bartender
+                      </Button>
+                    </>
+                  )}
+                </Flex>
+              </Flex>
+            </Box>
+          </Box>
 
-          <Divider />
+          <Divider borderColor="#263147" />
 
           {/* Seção de Comentários e Avaliações */}
           <Box>
-            <Heading size="md" mb={4}>Avaliações dos Clientes</Heading>
+            <Heading size="md" mb={4} color="white">Avaliações dos Clientes</Heading>
             {avaliacoes.length > 0 ? (
               <VStack spacing={4} align="stretch">
                 {avaliacoes.map((avaliacao) => (
                   <Box
                     key={avaliacao.id}
-                    p={4}
+                    p={5}
                     borderWidth={1}
                     borderColor="#263147"
-                    borderRadius={8}
-                    boxShadow="sm"
+                    borderRadius="xl"
+                    boxShadow="md"
                     bg="#161c28"
                   >
                     <HStack justify="space-between" mb={2}>
@@ -275,14 +309,37 @@ export default function PerfilBartender() {
                 ))}
               </VStack>
             ) : (
-              <Text color="gray.500">Este bartender ainda não recebeu avaliações.</Text>
+              <Box
+                p={8}
+                textAlign="center"
+                borderWidth={1}
+                borderColor="#263147"
+                borderRadius="xl"
+                bg="#161c28"
+              >
+                <Icon as={IconeEstrela} color="gray.600" boxSize={10} mb={3} />
+                <Text color="gray.400" fontSize="md" fontWeight="medium">
+                  Este bartender ainda não recebeu avaliações.
+                </Text>
+                <Text color="gray.500" fontSize="sm" mt={1}>
+                  Seja o primeiro a contratar e avaliar o serviço!
+                </Text>
+              </Box>
             )}
           </Box>
 
-          {/* Modal de Solicitação de Orçamento / Agendamento */}
+          {/* Modal de Solicitação de Orçamento / Agendamento em Modo Escuro */}
           <Modal isOpen={isOpen} onClose={onClose} size="lg">
-            <ModalOverlay />
-            <ModalContent as="form" onSubmit={handleSolicitarOrçamento}>
+            <ModalOverlay backdropFilter="blur(4px)" />
+            <ModalContent
+              as="form"
+              onSubmit={handleSolicitarOrçamento}
+              bg="#161c28"
+              borderColor="#263147"
+              borderWidth={1}
+              color="white"
+              borderRadius="xl"
+            >
               <ModalHeader>Solicitar Orçamento / Reserva</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
@@ -297,21 +354,24 @@ export default function PerfilBartender() {
                     <Select
                       value={tipoEvento}
                       onChange={(e) => setTipoEvento(e.target.value)}
+                      bg="#11151f"
+                      borderColor="#263147"
                     >
-                      <option value="Casamento">Casamento</option>
-                      <option value="Aniversário">Aniversário</option>
-                      <option value="Festa Corporativa">Festa Corporativa</option>
-                      <option value="Confraternização">Confraternização</option>
-                      <option value="Evento Particular">Evento Particular</option>
+                      <option value="Casamento" style={{ backgroundColor: '#161c28' }}>Casamento</option>
+                      <option value="Aniversário" style={{ backgroundColor: '#161c28' }}>Aniversário</option>
+                      <option value="Festa Corporativa" style={{ backgroundColor: '#161c28' }}>Festa Corporativa</option>
+                      <option value="Confraternização" style={{ backgroundColor: '#161c28' }}>Confraternização</option>
+                      <option value="Evento Particular" style={{ backgroundColor: '#161c28' }}>Evento Particular</option>
                     </Select>
                   </FormControl>
-
                   <FormControl isRequired>
                     <FormLabel>Data Prevista do Evento</FormLabel>
                     <Input
                       type="date"
                       value={dataEvento}
                       onChange={(e) => setDataEvento(e.target.value)}
+                      bg="#11151f"
+                      borderColor="#263147"
                     />
                   </FormControl>
 
@@ -323,6 +383,8 @@ export default function PerfilBartender() {
                       max={48}
                       value={horas}
                       onChange={(e) => setHoras(e.target.value)}
+                      bg="#11151f"
+                      borderColor="#263147"
                     />
                   </FormControl>
 
@@ -332,6 +394,8 @@ export default function PerfilBartender() {
                       placeholder="Ex: Espaço Villa Lobos, São Paulo - SP"
                       value={localEvento}
                       onChange={(e) => setLocalEvento(e.target.value)}
+                      bg="#11151f"
+                      borderColor="#263147"
                     />
                   </FormControl>
 
@@ -341,14 +405,22 @@ export default function PerfilBartender() {
                       placeholder="Ex: Preferência por drinks sem álcool e clássicos reformulados."
                       value={observacoes}
                       onChange={(e) => setObservacoes(e.target.value)}
+                      bg="#11151f"
+                      borderColor="#263147"
                     />
                   </FormControl>
 
-                  <Box p={3} bg="teal.50" borderRadius="md" borderWidth={1} borderColor="teal.200">
-                    <Text fontSize="sm" color="teal.800">
+                  <Box
+                    p={4}
+                    bg="rgba(49, 151, 149, 0.1)"
+                    borderRadius="lg"
+                    borderWidth={1}
+                    borderColor="teal.500"
+                  >
+                    <Text fontSize="sm" color="teal.300">
                       <strong>Preço por Hora:</strong> R$ {bartender.precoPorHora || 0}
                     </Text>
-                    <Text fontSize="md" fontWeight="bold" color="teal.700" mt={1}>
+                    <Text fontSize="md" fontWeight="bold" color="white" mt={1}>
                       Valor Estimado do Orçamento: R$ {valorEstimadoCalculado}
                     </Text>
                   </Box>
@@ -371,8 +443,9 @@ export default function PerfilBartender() {
           </Modal>
         </VStack>
       ) : (
-        <Text>Bartender não encontrado.</Text>
+        <Text color="gray.400">Bartender não encontrado.</Text>
       )}
     </Box>
   );
 }
+
