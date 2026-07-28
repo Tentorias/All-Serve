@@ -160,14 +160,22 @@ export default function Painel() {
                       <Button
                         as={RouterLink}
                         to="/buscar"
-                        variant="outline"
-                        colorScheme="teal"
-                        color="teal.300"
-                        borderColor="teal.500"
-                        _hover={{ bg: 'rgba(49, 151, 149, 0.15)', color: 'white' }}
+                        colorScheme="blue"
                         size="sm"
                       >
-                        🤝 Buscar Parceiros / Equipe
+                        🤝 Contratar / Buscar Colegas
+                      </Button>
+                      <Button
+                        as={RouterLink}
+                        to="/bartenders"
+                        variant="outline"
+                        colorScheme="blue"
+                        color="blue.300"
+                        borderColor="blue.500"
+                        _hover={{ bg: 'rgba(66, 153, 225, 0.15)', color: 'white' }}
+                        size="sm"
+                      >
+                        ⭐ Avaliar Colegas
                       </Button>
                     </>
                   )}

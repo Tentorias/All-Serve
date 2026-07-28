@@ -14,6 +14,11 @@ import {
   useToast,
   Divider,
   SimpleGrid,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from '@chakra-ui/react';
 import {
   collection,
@@ -252,126 +257,182 @@ service cloud.firestore {
           </Text>
         </Box>
       ) : (
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-          {agendamentos.map((item) => (
-            <Box
-              key={item.id}
-              p={5}
-              borderWidth={1}
-              borderColor="#263147"
-              borderRadius="xl"
-              boxShadow="lg"
-              bg="#161c28"
-            >
-              <HStack justify="space-between" mb={2} flexWrap="wrap">
-                <Text fontWeight="bold" fontSize="lg" color="white">
-                  {item.tipoEvento || 'Evento Especial'}
-                </Text>
-                <HStack spacing={2} flexWrap="wrap">
-                  {item.bartenderId === currentUser?.uid && (
-                    <Badge colorScheme="purple" fontSize="0.75em" px={2} py={0.5} borderRadius="md">
-                      📥 Trabalho Recebido
-                    </Badge>
-                  )}
-                  {item.clienteId === currentUser?.uid && (
-                    <Badge colorScheme="blue" fontSize="0.75em" px={2} py={0.5} borderRadius="md">
-                      📤 Solicitado por mim
-                    </Badge>
-                  )}
-                  {renderBadgeStatus(item.status)}
-                </HStack>
-              </HStack>
+        (() => {
+          const agendamentosRecebidos = agendamentos.filter(
+            (a) => a.bartenderId === currentUser?.uid
+          );
+          const agendamentosEnviados = agendamentos.filter(
+            (a) => a.clienteId === currentUser?.uid
+          );
 
-              <Divider borderColor="#263147" my={2} />
-
-              <VStack align="start" spacing={1.5} fontSize="sm" color="gray.300">
-                <Text>
-                  <strong style={{ color: '#fff' }}>Bartender Prestador:</strong>{' '}
-                  {item.bartenderNome || item.bartenderEmail}
-                </Text>
-                <Text>
-                  <strong style={{ color: '#fff' }}>Contratante (Cliente/Parceiro):</strong>{' '}
-                  {item.clienteEmail}
-                </Text>
-                <Text>
-                  <strong style={{ color: '#fff' }}>Data do Evento:</strong> {item.dataEvento || 'Não informada'}
-                </Text>
-                <Text>
-                  <strong style={{ color: '#fff' }}>Duração:</strong> {item.horas || 0} hora(s)
-                </Text>
-                <Text>
-                  <strong style={{ color: '#fff' }}>Local:</strong> {item.localEvento || 'A combinar'}
-                </Text>
-                <Text fontWeight="bold" color="teal.300" fontSize="md" pt={1}>
-                  Valor Estimado: R$ {item.valorEstimado?.toFixed(2) || '0.00'}
-                </Text>
-                {item.observacoes && (
-                  <Text fontStyle="italic" color="gray.400" mt={1}>
-                    "{item.observacoes}"
+          const renderListaCards = (lista, isRecebido) => {
+            if (lista.length === 0) {
+              return (
+                <Box
+                  p={6}
+                  borderWidth={1}
+                  borderColor="#263147"
+                  borderRadius="lg"
+                  bg="#161c28"
+                  textAlign="center"
+                >
+                  <Text color="gray.400">
+                    {isRecebido
+                      ? 'Você ainda não recebeu nenhuma solicitação de orçamento ou agendamento.'
+                      : 'Você ainda não solicitou nenhum orçamento ou parceria com um bartender.'}
                   </Text>
-                )}
-              </VStack>
+                </Box>
+              );
+            }
 
-              {item.bartenderId === currentUser?.uid && item.status === 'pendente' && (
-                <HStack spacing={3} mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
-                  <Button
-                    size="sm"
-                    colorScheme="teal"
-                    bg="teal.500"
-                    color="white"
-                    fontWeight="bold"
-                    _hover={{ bg: 'teal.400' }}
-                    isLoading={processandoId === item.id}
-                    onClick={() => atualizarStatus(item.id, 'aceito')}
-                  >
-                    ✅ Aceitar Orçamento
-                  </Button>
-                  <Button
-                    size="sm"
-                    colorScheme="red"
-                    variant="outline"
-                    color="red.300"
-                    borderColor="red.500"
-                    fontWeight="semibold"
-                    _hover={{
-                      bg: 'rgba(245, 101, 101, 0.15)',
-                      borderColor: 'red.300',
-                      color: 'red.200',
-                    }}
-                    isLoading={processandoId === item.id}
-                    onClick={() => atualizarStatus(item.id, 'recusado')}
-                  >
-                    ❌ Recusar
-                  </Button>
-                </HStack>
-              )}
+            return (
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                {lista.map((item) => {
+                  const souOPrestador = item.bartenderId === currentUser?.uid;
 
-              {item.clienteId === currentUser?.uid &&
-                item.bartenderId !== currentUser?.uid &&
-                item.status === 'pendente' && (
-                  <HStack mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
-                    <Button
-                      size="sm"
-                      colorScheme="red"
-                      variant="outline"
-                      color="red.300"
-                      borderColor="red.500"
-                      fontWeight="semibold"
-                      _hover={{
-                        bg: 'rgba(245, 101, 101, 0.15)',
-                        borderColor: 'red.300',
-                        color: 'white',
-                      }}
-                      isLoading={processandoId === item.id}
-                      onClick={() => atualizarStatus(item.id, 'cancelado')}
+                  return (
+                    <Box
+                      key={item.id}
+                      p={5}
+                      borderWidth={1}
+                      borderColor="#263147"
+                      borderRadius="xl"
+                      boxShadow="lg"
+                      bg="#161c28"
                     >
-                      ❌ Cancelar Solicitação
-                    </Button>
-                  </HStack>
-                )}
-            </Box>
-          ))}
-        </SimpleGrid>
+                      <HStack justify="space-between" mb={2}>
+                        <Text fontWeight="bold" fontSize="lg" color="white">
+                          {item.tipoEvento || 'Evento Especial'}
+                        </Text>
+                        {renderBadgeStatus(item.status)}
+                      </HStack>
+
+                      <Divider borderColor="#263147" my={2} />
+
+                      <VStack align="start" spacing={1.5} fontSize="sm" color="gray.300">
+                        <Text>
+                          <strong style={{ color: '#fff' }}>
+                            {souOPrestador ? 'Solicitado por (Cliente/Colega):' : 'Bartender Contratado:'}
+                          </strong>{' '}
+                          {souOPrestador
+                            ? item.clienteEmail
+                            : item.bartenderNome || item.bartenderEmail}
+                        </Text>
+                        <Text>
+                          <strong style={{ color: '#fff' }}>Data do Evento:</strong>{' '}
+                          {item.dataEvento || 'Não informada'}
+                        </Text>
+                        <Text>
+                          <strong style={{ color: '#fff' }}>Duração:</strong> {item.horas || 0}{' '}
+                          hora(s)
+                        </Text>
+                        <Text>
+                          <strong style={{ color: '#fff' }}>Local:</strong>{' '}
+                          {item.localEvento || 'A combinar'}
+                        </Text>
+                        <Text fontWeight="bold" color="teal.300" fontSize="md" pt={1}>
+                          Valor Estimado: R$ {item.valorEstimado?.toFixed(2) || '0.00'}
+                        </Text>
+                        {item.observacoes && (
+                          <Text fontStyle="italic" color="gray.400" mt={1}>
+                            "{item.observacoes}"
+                          </Text>
+                        )}
+                      </VStack>
+
+                      {souOPrestador && item.status === 'pendente' && (
+                        <HStack spacing={3} mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
+                          <Button
+                            size="sm"
+                            colorScheme="teal"
+                            bg="teal.500"
+                            color="white"
+                            fontWeight="bold"
+                            _hover={{ bg: 'teal.400' }}
+                            isLoading={processandoId === item.id}
+                            onClick={() => atualizarStatus(item.id, 'aceito')}
+                          >
+                            ✅ Aceitar Orçamento
+                          </Button>
+                          <Button
+                            size="sm"
+                            colorScheme="red"
+                            variant="outline"
+                            color="red.300"
+                            borderColor="red.500"
+                            fontWeight="semibold"
+                            _hover={{
+                              bg: 'rgba(245, 101, 101, 0.15)',
+                              borderColor: 'red.300',
+                              color: 'red.200',
+                            }}
+                            isLoading={processandoId === item.id}
+                            onClick={() => atualizarStatus(item.id, 'recusado')}
+                          >
+                            ❌ Recusar
+                          </Button>
+                        </HStack>
+                      )}
+
+                      {!souOPrestador && item.status === 'pendente' && (
+                        <HStack mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
+                          <Button
+                            size="sm"
+                            colorScheme="red"
+                            variant="outline"
+                            color="red.300"
+                            borderColor="red.500"
+                            fontWeight="semibold"
+                            _hover={{
+                              bg: 'rgba(245, 101, 101, 0.15)',
+                              borderColor: 'red.300',
+                              color: 'white',
+                            }}
+                            isLoading={processandoId === item.id}
+                            onClick={() => atualizarStatus(item.id, 'cancelado')}
+                          >
+                            ❌ Cancelar Solicitação
+                          </Button>
+                        </HStack>
+                      )}
+                    </Box>
+                  );
+                })}
+              </SimpleGrid>
+            );
+          };
+
+          return role === 'bartender' ? (
+            <Tabs variant="soft-rounded" colorScheme="teal" mt={2}>
+              <TabList mb={4} flexWrap="wrap" gap={2}>
+                <Tab
+                  color="gray.400"
+                  _selected={{ color: 'white', bg: 'teal.600' }}
+                  fontSize="sm"
+                >
+                  📥 Orçamentos Recebidos ({agendamentosRecebidos.length})
+                </Tab>
+                <Tab
+                  color="gray.400"
+                  _selected={{ color: 'white', bg: 'blue.600' }}
+                  fontSize="sm"
+                >
+                  📤 Minhas Contratações e Parcerias ({agendamentosEnviados.length})
+                </Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel p={0}>
+                  {renderListaCards(agendamentosRecebidos, true)}
+                </TabPanel>
+                <TabPanel p={0}>
+                  {renderListaCards(agendamentosEnviados, false)}
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          ) : (
+            renderListaCards(agendamentosEnviados, false)
+          );
+        })()
       )}
     </Box>
   );

@@ -249,7 +249,7 @@ export default function PerfilBartender() {
                         fontWeight="bold"
                         width={{ base: 'full', sm: 'auto' }}
                       >
-                        📅 Solicitar Orçamento / Reserva
+                        📅 Solicitar Reserva / Parceria
                       </Button>
                       <Button
                         as={RouterLink}
@@ -260,7 +260,7 @@ export default function PerfilBartender() {
                         px={6}
                         width={{ base: 'full', sm: 'auto' }}
                       >
-                        ⭐ Avaliar Bartender
+                        ⭐ Avaliar Bartender / Colega
                       </Button>
                     </>
                   )}
@@ -273,7 +273,9 @@ export default function PerfilBartender() {
 
           {/* Seção de Comentários e Avaliações */}
           <Box>
-            <Heading size="md" mb={4} color="white">Avaliações dos Clientes</Heading>
+            <Heading size="md" mb={4} color="white">
+              Avaliações de Clientes e Colegas Profissionais
+            </Heading>
             {avaliacoes.length > 0 ? (
               <VStack spacing={4} align="stretch">
                 {avaliacoes.map((avaliacao) => (
