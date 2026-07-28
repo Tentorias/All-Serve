@@ -1,7 +1,7 @@
 // src/componentes/comuns/BarraNavegacao.jsx
 
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Box, Flex, Link, Button, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Link, Button, Heading, Text, HStack } from '@chakra-ui/react';
 import { useAuth } from '../../contexto/ContextoAutenticacao.jsx';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase/config.js';
@@ -20,36 +20,103 @@ export default function BarraNavegacao() {
   };
 
   return (
-    <Box bg="teal.500" p={4} color="white">
-      <Flex maxW="container.xl" margin="auto" justify="space-between" align="center">
-        <Heading as={RouterLink} to="/" size="md">
-          Meu App
+    <Box
+      as="header"
+      position="sticky"
+      top={0}
+      zIndex={1000}
+      className="glacial-navbar"
+      px={6}
+      py={3}
+    >
+      <Flex maxW="1200px" margin="auto" justify="space-between" align="center">
+        {/* Logo All-Serve com efeito Glacial */}
+        <Heading
+          as={RouterLink}
+          to="/"
+          size="md"
+          display="flex"
+          alignItems="center"
+          gap={2}
+          _hover={{ opacity: 0.85 }}
+          textDecoration="none"
+        >
+          <Text as="span" fontSize="2xl">💎</Text>
+          <Text as="span" className="glacial-text-gradient" fontSize="xl" fontWeight="900" letterSpacing="tight">
+            All-Serve
+          </Text>
         </Heading>
-        <Flex gap={4} align="center">
+
+        {/* Itens de Navegação */}
+        <HStack spacing={6} align="center">
           {currentUser ? (
             <>
-              <Link as={RouterLink} to="/buscar">
-                Buscar Bartenders
+              <Link
+                as={RouterLink}
+                to="/buscar"
+                fontWeight="600"
+                color="teal.900"
+                _hover={{ color: 'teal.500', textDecoration: 'none', transform: 'translateY(-1px)' }}
+                transition="all 0.2s"
+              >
+                🍸 Buscar Bartenders
               </Link>
-              <Link as={RouterLink} to="/painel">
-                Painel
+              <Link
+                as={RouterLink}
+                to="/painel"
+                fontWeight="600"
+                color="teal.900"
+                _hover={{ color: 'teal.500', textDecoration: 'none', transform: 'translateY(-1px)' }}
+                transition="all 0.2s"
+              >
+                📊 Meu Painel
               </Link>
-              <Text>Olá, {currentUser.email}</Text>
-              <Button colorScheme="red" size="sm" onClick={handleLogout}>
+              <Box
+                px={3}
+                py={1}
+                borderRadius="full"
+                bg="rgba(0, 198, 255, 0.12)"
+                border="1px solid rgba(0, 198, 255, 0.3)"
+                display={{ base: 'none', md: 'block' }}
+              >
+                <Text fontSize="xs" fontWeight="bold" color="teal.800">
+                  ⚡ {currentUser.email?.split('@')[0]}
+                </Text>
+              </Box>
+              <Button
+                size="sm"
+                colorScheme="red"
+                variant="outline"
+                borderRadius="full"
+                onClick={handleLogout}
+              >
                 Sair
               </Button>
             </>
           ) : (
             <>
-              <Link as={RouterLink} to="/login">
+              <Link
+                as={RouterLink}
+                to="/login"
+                fontWeight="600"
+                color="teal.900"
+                _hover={{ color: 'teal.600', textDecoration: 'none' }}
+              >
                 Entrar
               </Link>
-              <Link as={RouterLink} to="/cadastro">
-                Criar Conta
-              </Link>
+              <Button
+                as={RouterLink}
+                to="/cadastro"
+                size="sm"
+                className="glacial-btn"
+                px={5}
+                py={2}
+              >
+                ✨ Criar Conta
+              </Button>
             </>
           )}
-        </Flex>
+        </HStack>
       </Flex>
     </Box>
   );

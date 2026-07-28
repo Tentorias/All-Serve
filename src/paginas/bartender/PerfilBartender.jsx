@@ -150,74 +150,83 @@ export default function PerfilBartender() {
     );
   }
 
-  const placeholderImage = 'https://via.placeholder.com/300x200?text=Bartender';
+  const placeholderImage = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80';
   const valorEstimadoCalculado = ((Number(bartender?.precoPorHora) || 0) * (Number(horas) || 1)).toFixed(2);
 
   return (
-    <Box p={8} maxWidth="900px" margin="auto">
+    <Box py={8} px={4} maxWidth="1000px" margin="auto">
       {bartender ? (
         <VStack spacing={8} align="stretch">
-          {/* Cabeçalho do Perfil */}
+          {/* Cabeçalho do Perfil - Vidro Glacial Aero */}
           <Flex
             direction={{ base: 'column', md: 'row' }}
             align="center"
-            gap={6}
-            p={6}
-            borderWidth={1}
-            borderRadius="lg"
-            boxShadow="md"
-            bg="white"
+            gap={8}
+            p={8}
+            className="glacial-card"
           >
             <Image
               src={bartender.fotoURL || placeholderImage}
               alt={`Foto de ${bartender.nome || bartender.email}`}
-              boxSize="150px"
+              boxSize="160px"
               objectFit="cover"
               borderRadius="full"
-              border="3px solid"
-              borderColor="teal.500"
+              className="glacial-avatar"
             />
-            <VStack align={{ base: 'center', md: 'flex-start' }} spacing={2} flex={1}>
-              <Heading size="lg">{bartender.nome || bartender.email}</Heading>
+            <VStack align={{ base: 'center', md: 'flex-start' }} spacing={3} flex={1}>
+              <Heading size="xl" color="teal.900" fontWeight="900">
+                {bartender.nome || bartender.email}
+              </Heading>
               {bartender.especialidade && (
-                <Badge colorScheme="teal" fontSize="0.9em" px={2} py={1}>
-                  {bartender.especialidade}
-                </Badge>
+                <Box>
+                  <span className="glacial-badge">
+                    🍸 {bartender.especialidade}
+                  </span>
+                </Box>
               )}
               {bartender.precoPorHora !== undefined && (
-                <Text fontWeight="bold" fontSize="lg" color="teal.600">
-                  R$ {bartender.precoPorHora}/hora
+                <Text fontWeight="900" fontSize="2xl" className="glacial-text-gradient">
+                  R$ {bartender.precoPorHora}/h
                 </Text>
               )}
-              <HStack spacing={1}>
-                <Text fontSize="xl" fontWeight="bold">{media.toFixed(1)}</Text>
-                <Icon as={IconeEstrela} color="gold" boxSize={6} />
-                <Text color="gray.500">({avaliacoes.length} avaliações)</Text>
+              <HStack
+                spacing={2}
+                bg="rgba(255, 215, 0, 0.15)"
+                px={3}
+                py={1}
+                borderRadius="full"
+                border="1px solid rgba(255, 215, 0, 0.35)"
+              >
+                <Text fontSize="xl" fontWeight="800" color="gray.800">{media.toFixed(1)}</Text>
+                <Icon as={IconeEstrela} color="yellow.500" boxSize={6} />
+                <Text color="gray.600" fontSize="sm">({avaliacoes.length} avaliações)</Text>
               </HStack>
             </VStack>
 
-            {/* Ações: Botão Editar para o Próprio Bartender ou Botões para Clientes */}
-            <VStack spacing={3}>
+            {/* Ações: Botão Editar para o Próprio Bartender ou Botão Glacial para Clientes */}
+            <VStack spacing={3} width={{ base: 'full', md: 'auto' }}>
               {currentUser && currentUser.uid === bartenderId ? (
                 <Button
                   as={RouterLink}
                   to="/bartender/editar"
-                  colorScheme="teal"
+                  className="glacial-btn"
                   size="md"
-                  width="full"
+                  px={6}
+                  py={5}
                 >
-                  ✏️ Editar Perfil
+                  ✏️ Editar Meu Perfil ✨
                 </Button>
               ) : (
                 <>
                   <Button
                     onClick={onOpen}
-                    colorScheme="teal"
-                    size="md"
+                    className="glacial-btn"
+                    size="lg"
+                    px={8}
+                    py={6}
                     width="full"
-                    fontWeight="bold"
                   >
-                    📅 Solicitar Orçamento / Reserva
+                    📅 Solicitar Orçamento ✨
                   </Button>
                   <Button
                     as={RouterLink}

@@ -60,65 +60,81 @@ export default function Painel() {
   }
 
   return (
-    <Box p={8}>
-      <VStack spacing={4} align="flex-start">
-        <Heading>Painel</Heading>
-        {userData ? (
-          <>
-            <Text fontSize="xl">
-              Bem-vindo, {userData.email}!
-            </Text>
-            <Text fontSize="lg">
-              Seu papel é: <strong>{userData.role}</strong>
-            </Text>
-
-            {/* Links para Clientes */}
-            {userData.role === 'cliente' && (
-              <>
-                <Link as={RouterLink} to="/buscar" color="teal.500" fontSize="lg">
-                  Buscar Bartenders
-                </Link>
-                <Link as={RouterLink} to="/bartenders" color="teal.500" fontSize="lg">
-                  Lista de Bartenders para Avaliar
-                </Link>
-              </>
-            )}
-            
-            {/* Links para Bartenders */}
-            {userData.role === 'bartender' && (
-              <>
-                <Link as={RouterLink} to={`/bartender/${currentUser.uid}`} color="teal.500" fontSize="lg">
-                  Ver meu Perfil Público
-                </Link>
-                <Link as={RouterLink} to="/bartender/editar" color="teal.500" fontSize="lg" fontWeight="bold">
-                  ✏️ Editar meu Perfil (Foto, Preço, Especialidade)
-                </Link>
-              </>
-            )}
-
-            {/* Lista de Agendamentos e Orçamentos para Clientes ou Bartenders */}
-            {(userData.role === 'cliente' || userData.role === 'bartender') && (
-              <Box width="full" pt={2}>
-                <ListaAgendamentos role={userData.role} />
+    <Box py={8} px={4}>
+      <VStack spacing={6} align="stretch" maxW="1000px" margin="auto">
+        <Box className="glacial-card" p={8}>
+          <VStack spacing={6} align="flex-start">
+            <Box>
+              <Box className="glacial-badge" mb={2}>
+                ⚙️ Central do Usuário
               </Box>
+              <Heading size="xl" color="teal.900" fontWeight="900">
+                Meu <span className="glacial-text-gradient">Painel</span>
+              </Heading>
+            </Box>
+
+            {userData ? (
+              <>
+                <Box>
+                  <Text fontSize="xl" fontWeight="600" color="gray.800">
+                    Bem-vindo, {userData.email}!
+                  </Text>
+                  <Text fontSize="md" color="gray.600">
+                    Seu perfil está autenticado no nível:{' '}
+                    <strong style={{ color: '#008080' }}>{userData.role?.toUpperCase()}</strong>
+                  </Text>
+                </Box>
+
+                {/* Ações e Links */}
+                <VStack align="stretch" spacing={3} width="100%" pt={2}>
+                  {userData.role === 'cliente' && (
+                    <>
+                      <Link as={RouterLink} to="/buscar" color="teal.700" fontWeight="600" _hover={{ color: 'teal.500' }}>
+                        🍸 Buscar Bartenders Disponíveis
+                      </Link>
+                      <Link as={RouterLink} to="/bartenders" color="teal.700" fontWeight="600" _hover={{ color: 'teal.500' }}>
+                        ⭐ Avaliar Bartenders da Comunidade
+                      </Link>
+                    </>
+                  )}
+
+                  {userData.role === 'bartender' && (
+                    <>
+                      <Link as={RouterLink} to={`/bartender/${currentUser.uid}`} color="teal.700" fontWeight="600" _hover={{ color: 'teal.500' }}>
+                        👁️ Ver Meu Perfil Público
+                      </Link>
+                      <Link as={RouterLink} to="/bartender/editar" color="teal.700" fontWeight="800" _hover={{ color: 'teal.500' }}>
+                        ✏️ Editar meu Perfil (Foto, Preço, Especialidade)
+                      </Link>
+                    </>
+                  )}
+
+                  {userData.role === 'administrador' && (
+                    <>
+                      <PainelAdmin />
+                      <Link as={RouterLink} to="/admin/moderar-avaliacoes" color="red.600" fontWeight="bold">
+                        🛡️ Moderar Avaliações do Sistema
+                      </Link>
+                    </>
+                  )}
+                </VStack>
+
+                {/* Lista de Agendamentos e Orçamentos para Clientes ou Bartenders */}
+                {(userData.role === 'cliente' || userData.role === 'bartender') && (
+                  <Box width="full" pt={4}>
+                    <ListaAgendamentos role={userData.role} />
+                  </Box>
+                )}
+              </>
+            ) : (
+              <Text>Não foi possível carregar os dados do usuário.</Text>
             )}
 
-            {/* Painel do Admin */}
-            {userData.role === 'administrador' && (
-              <>
-                <PainelAdmin />
-                <Link as={RouterLink} to="/admin/moderar-avaliacoes" color="red.500" fontSize="lg">
-                  Moderar Avaliações
-                </Link>
-              </>
-            )}
-          </>
-        ) : (
-          <Text>Não foi possível carregar os dados do usuário.</Text>
-        )}
-        <Button mt={4} colorScheme="red" onClick={handleLogout}>
-          Sair
-        </Button>
+            <Button mt={4} colorScheme="red" variant="outline" borderRadius="full" onClick={handleLogout}>
+              Sair da Conta
+            </Button>
+          </VStack>
+        </Box>
       </VStack>
     </Box>
   );

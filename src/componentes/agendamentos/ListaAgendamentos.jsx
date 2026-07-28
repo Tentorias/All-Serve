@@ -151,16 +151,13 @@ export default function ListaAgendamentos({ role }) {
           {agendamentos.map((item) => (
             <Box
               key={item.id}
-              p={5}
-              borderWidth={1}
-              borderRadius="lg"
-              boxShadow="sm"
-              bg="white"
+              p={6}
+              className="glacial-card"
               position="relative"
             >
-              <HStack justify="space-between" mb={2}>
-                <Text fontWeight="bold" fontSize="lg" color="teal.800">
-                  {item.tipoEvento || 'Evento Especial'}
+              <HStack justify="space-between" mb={3}>
+                <Text fontWeight="900" fontSize="lg" color="teal.900">
+                  🍸 {item.tipoEvento || 'Evento Especial'}
                 </Text>
                 {renderBadgeStatus(item.status)}
               </HStack>

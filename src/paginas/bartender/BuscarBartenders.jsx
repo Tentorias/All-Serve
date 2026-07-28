@@ -157,32 +157,49 @@ export default function BuscarBartenders() {
   };
 
   return (
-    <Box p={8}>
-      <VStack spacing={8} align="stretch">
-        <Box textAlign="center">
-          <Heading as="h1" size="xl">Encontre o Bartender Perfeito</Heading>
-          <Text mt={2}>Filtre por especialidade e ordene como preferir.</Text>
+    <Box py={8} px={4}>
+      <VStack spacing={8} align="stretch" maxW="1200px" margin="auto">
+        <Box textAlign="center" py={4}>
+          <Box className="glacial-badge" mb={3}>
+            🍸 Catálogo de Profissionais
+          </Box>
+          <Heading as="h1" size="2xl" color="teal.900" fontWeight="900">
+            Encontre o Bartender <span className="glacial-text-gradient">Perfeito</span>
+          </Heading>
+          <Text mt={2} color="gray.700" fontSize="lg">
+            Filtre por especialidade e ordene como preferir em nossa comunidade exclusiva.
+          </Text>
         </Box>
 
-        {/* Barra de Filtros */}
-        <HStack spacing={4} justify="center">
-          <Input
-            placeholder="Filtrar por especialidade..."
-            value={filtroEspecialidade}
-            onChange={(e) => setFiltroEspecialidade(e.target.value)}
-            maxWidth="400px"
-          />
-          <Select
-            value={ordenacao}
-            onChange={(e) => setOrdenacao(e.target.value)}
-            maxWidth="250px"
-          >
-            <option value="relevancia">Relevância</option>
-            <option value="preco_asc">Menor Preço</option>
-            <option value="preco_desc">Maior Preço</option>
-            <option value="avaliacao_desc">Melhor Avaliação</option>
-          </Select>
-        </HStack>
+        {/* Barra de Filtros Glacial Glass */}
+        <Box className="glacial-card" p={6}>
+          <HStack spacing={4} justify="center" flexWrap="wrap">
+            <Input
+              placeholder="🔍 Filtrar por especialidade (ex: Drinks Clássicos)..."
+              value={filtroEspecialidade}
+              onChange={(e) => setFiltroEspecialidade(e.target.value)}
+              maxWidth="450px"
+              bg="rgba(255, 255, 255, 0.85)"
+              border="1px solid rgba(0, 198, 255, 0.4)"
+              borderRadius="12px"
+              _focus={{ borderColor: 'teal.500', boxShadow: '0 0 0 1px #319795' }}
+            />
+            <Select
+              value={ordenacao}
+              onChange={(e) => setOrdenacao(e.target.value)}
+              maxWidth="260px"
+              bg="rgba(255, 255, 255, 0.85)"
+              border="1px solid rgba(0, 198, 255, 0.4)"
+              borderRadius="12px"
+              _focus={{ borderColor: 'teal.500', boxShadow: '0 0 0 1px #319795' }}
+            >
+              <option value="relevancia">⭐ Relevância</option>
+              <option value="preco_asc">💲 Menor Preço</option>
+              <option value="preco_desc">💎 Maior Preço</option>
+              <option value="avaliacao_desc">🏆 Melhor Avaliação</option>
+            </Select>
+          </HStack>
+        </Box>
 
         {/* Grid de Resultados */}
         {loading ? (
@@ -201,18 +218,19 @@ export default function BuscarBartenders() {
               )}
             </SimpleGrid>
 
-            {/* Botão de Paginação "Carregar Mais" */}
+            {/* Botão de Paginação "Carregar Mais" Glacial Aero */}
             {temMais && (
-              <Center mt={8}>
+              <Center mt={10}>
                 <Button
-                  colorScheme="teal"
-                  variant="outline"
+                  className="glacial-btn"
                   size="lg"
+                  px={10}
+                  py={6}
                   onClick={handleCarregarMais}
                   isLoading={carregandoMais}
                   loadingText="Carregando..."
                 >
-                  Carregar Mais Bartenders
+                  Carregar Mais Bartenders ✨
                 </Button>
               </Center>
             )}

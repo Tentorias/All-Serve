@@ -194,29 +194,35 @@ export default function EditarPerfil() {
     );
   }
 
-  const placeholderImage = 'https://via.placeholder.com/300x200?text=Bartender';
+  const placeholderImage = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80';
 
   return (
-    <Box p={8} maxWidth="650px" borderWidth={1} borderRadius={8} boxShadow="lg" margin="auto" mt={8}>
+    <Box py={8} px={4} maxWidth="700px" className="glacial-card" margin="auto" mt={8} p={8}>
       <VStack spacing={6} align="stretch">
-        <Heading size="lg">Editar Meu Perfil de Bartender</Heading>
-        <Text color="gray.600">
-          Atualize seus dados profissionais, preço por hora e foto do perfil.
+        <Box>
+          <Box className="glacial-badge" mb={2}>
+            ✏️ Atualização de Dados
+          </Box>
+          <Heading size="xl" color="teal.900" fontWeight="900">
+            Editar Meu Perfil de <span className="glacial-text-gradient">Bartender</span>
+          </Heading>
+        </Box>
+        <Text color="gray.700" fontSize="md">
+          Atualize seus dados profissionais, preço por hora e foto de apresentação da comunidade.
         </Text>
         <Divider />
 
         <form onSubmit={handleSubmit}>
-          <VStack spacing={5} align="stretch">
+          <VStack spacing={6} align="stretch">
             {/* Pré-visualização da foto */}
-            <HStack spacing={6} align="center">
+            <HStack spacing={6} align="center" bg="rgba(0, 198, 255, 0.08)" p={4} borderRadius="xl" border="1px solid rgba(0, 198, 255, 0.25)">
               <Image
                 src={fotoURL || placeholderImage}
                 alt="Foto do perfil"
-                boxSize="100px"
+                boxSize="110px"
                 objectFit="cover"
                 borderRadius="full"
-                border="2px solid"
-                borderColor="teal.500"
+                className="glacial-avatar"
               />
               <VStack align="start" spacing={1}>
                 <Text fontWeight="bold">Foto de Perfil</Text>
@@ -294,16 +300,21 @@ export default function EditarPerfil() {
             <HStack spacing={4} pt={4}>
               <Button
                 type="submit"
-                colorScheme="teal"
+                className="glacial-btn"
                 width="full"
+                py={6}
                 isLoading={salvando}
                 loadingText="Salvando..."
               >
-                Salvar Alterações
+                Salvar Alterações ✨
               </Button>
               <Button
                 variant="outline"
                 width="full"
+                py={6}
+                border="2px solid"
+                borderColor="teal.500"
+                _hover={{ bg: 'rgba(0, 198, 255, 0.1)' }}
                 onClick={() => navigate('/painel')}
               >
                 Cancelar
