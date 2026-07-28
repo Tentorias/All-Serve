@@ -3,14 +3,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import { ProvedorAutenticacao } from './contexto/ContextoAutenticacao.jsx';
-
-const theme = extendTheme({});
+import tema from './tema.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ColorModeScript initialColorMode={tema.config.initialColorMode} />
+    <ChakraProvider theme={tema}>
       {/* Contexto de autenticação */}
       <ProvedorAutenticacao>
         <App />

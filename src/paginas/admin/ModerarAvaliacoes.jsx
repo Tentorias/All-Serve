@@ -88,10 +88,13 @@ export default function ModerarAvaliacoes() {
           avaliacoes.map((avaliacao) => (
             <Box
               key={avaliacao.id}
-              p={4}
+              p={5}
               borderWidth={1}
-              borderRadius={8}
-              bg={avaliacao.visivel ? 'white' : 'gray.100'}
+              borderColor="#263147"
+              borderRadius="xl"
+              boxShadow="md"
+              bg={avaliacao.visivel ? '#161c28' : '#11151f'}
+              color="gray.300"
             >
               <Text>
                 <strong>Bartender ID:</strong> {avaliacao.bartenderId}

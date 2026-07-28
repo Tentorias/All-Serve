@@ -79,9 +79,19 @@ export default function AvaliarBartender() {
   };
 
   return (
-    <Box p={8} maxWidth="600px" margin="auto" mt={10}>
+    <Box
+      p={8}
+      maxWidth="600px"
+      borderWidth={1}
+      borderColor="#263147"
+      bg="#161c28"
+      borderRadius="xl"
+      boxShadow="2xl"
+      margin="auto"
+      mt={10}
+    >
       <VStack spacing={6}>
-        <Heading>Avaliar Bartender</Heading>
+        <Heading color="white">Avaliar Bartender</Heading>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <VStack spacing={4}>
             <FormControl isRequired>

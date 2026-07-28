@@ -81,9 +81,19 @@ export default function Cadastro() {
   };
 
   return (
-    <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg" margin="auto" mt={10}>
-      <VStack spacing={4}>
-        <Heading>Criar Conta</Heading>
+    <Box
+      p={8}
+      maxWidth="500px"
+      borderWidth={1}
+      borderColor="#263147"
+      bg="#161c28"
+      borderRadius="xl"
+      boxShadow="2xl"
+      margin="auto"
+      mt={10}
+    >
+      <VStack spacing={6}>
+        <Heading size="lg" color="white">Criar Nova Conta</Heading>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <VStack spacing={4}>
             <FormControl isRequired>

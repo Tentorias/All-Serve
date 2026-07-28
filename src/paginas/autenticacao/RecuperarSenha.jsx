@@ -33,10 +33,22 @@ export default function RecuperarSenha() {
   };
 
   return (
-    <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg" margin="auto" mt={10}>
-      <VStack spacing={4}>
-        <Heading>Recuperar Senha</Heading>
-        <Text textAlign="center">Digite seu e-mail e enviaremos um link para você voltar a acessar sua conta.</Text>
+    <Box
+      p={8}
+      maxWidth="480px"
+      borderWidth={1}
+      borderColor="#263147"
+      bg="#161c28"
+      borderRadius="xl"
+      boxShadow="2xl"
+      margin="auto"
+      mt={12}
+    >
+      <VStack spacing={5}>
+        <Heading size="lg" color="white">Recuperar Senha</Heading>
+        <Text textAlign="center" color="gray.400" fontSize="sm">
+          Digite seu e-mail e enviaremos um link para redefinir sua senha.
+        </Text>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <VStack spacing={4}>
             <FormControl isRequired>

@@ -10,7 +10,11 @@ import {
   Spinner,
   Center,
   VStack,
+  HStack,
   Link,
+  Badge,
+  Divider,
+  Container,
 } from '@chakra-ui/react';
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -54,88 +58,142 @@ export default function Painel() {
   if (loading) {
     return (
       <Center h="100vh">
-        <Spinner size="xl" />
+        <Spinner size="xl" color="teal.400" />
       </Center>
     );
   }
 
   return (
-    <Box py={8} px={4}>
-      <VStack spacing={6} align="stretch" maxW="1000px" margin="auto">
-        <Box className="glacial-card" p={8}>
-          <VStack spacing={6} align="flex-start">
-            <Box>
-              <Box className="glacial-badge" mb={2}>
-                ⚙️ Central do Usuário
-              </Box>
-              <Heading size="xl" color="white" fontWeight="900">
-                Meu <span className="glacial-text-gradient">Painel</span>
+    <Container maxW="container.lg" py={8}>
+      <Box
+        bg="#161c28"
+        borderWidth="1px"
+        borderColor="#263147"
+        borderRadius="xl"
+        p={8}
+        boxShadow="xl"
+      >
+        <VStack spacing={6} align="stretch">
+          <HStack justify="space-between" align="center" flexWrap="wrap">
+            <VStack align="start" spacing={1}>
+              <Heading size="lg" color="white">
+                Meu Painel de Controle
               </Heading>
-            </Box>
+              {userData && (
+                <Text color="gray.400" fontSize="md">
+                  Bem-vindo(a), <strong style={{ color: '#fff' }}>{userData.email}</strong>
+                </Text>
+              )}
+            </VStack>
 
-            {userData ? (
-              <>
-                <Box>
-                  <Text fontSize="xl" fontWeight="600" color="white">
-                    Bem-vindo, {userData.email}!
-                  </Text>
-                  <Text fontSize="md" color="cyan.200">
-                    Seu perfil está autenticado no nível:{' '}
-                    <strong style={{ color: '#40d8ff' }}>{userData.role?.toUpperCase()}</strong>
-                  </Text>
-                </Box>
+            {userData && (
+              <Badge
+                colorScheme="teal"
+                px={3}
+                py={1}
+                borderRadius="full"
+                fontSize="sm"
+                textTransform="uppercase"
+              >
+                Perfil: {userData.role}
+              </Badge>
+            )}
+          </HStack>
 
-                {/* Ações e Links */}
-                <VStack align="stretch" spacing={3} width="100%" pt={2}>
+          <Divider borderColor="#263147" />
+
+          {userData ? (
+            <>
+              {/* Menu Rápido por Perfil */}
+              <Box>
+                <Text fontWeight="600" color="gray.300" mb={3} fontSize="sm">
+                  ATALHOS DO SEU PERFIL:
+                </Text>
+                <HStack spacing={4} flexWrap="wrap">
                   {userData.role === 'cliente' && (
                     <>
-                      <Link as={RouterLink} to="/buscar" color="cyan.300" fontWeight="600" _hover={{ color: 'cyan.100' }}>
-                        🍸 Buscar Bartenders Disponíveis
-                      </Link>
-                      <Link as={RouterLink} to="/bartenders" color="cyan.300" fontWeight="600" _hover={{ color: 'cyan.100' }}>
-                        ⭐ Avaliar Bartenders da Comunidade
-                      </Link>
+                      <Button
+                        as={RouterLink}
+                        to="/buscar"
+                        colorScheme="teal"
+                        size="sm"
+                      >
+                        🔍 Buscar Bartenders
+                      </Button>
+                      <Button
+                        as={RouterLink}
+                        to="/bartenders"
+                        variant="outline"
+                        colorScheme="teal"
+                        size="sm"
+                      >
+                        ⭐ Avaliar Bartenders
+                      </Button>
                     </>
                   )}
 
                   {userData.role === 'bartender' && (
                     <>
-                      <Link as={RouterLink} to={`/bartender/${currentUser.uid}`} color="cyan.300" fontWeight="600" _hover={{ color: 'cyan.100' }}>
+                      <Button
+                        as={RouterLink}
+                        to={`/bartender/${currentUser.uid}`}
+                        colorScheme="teal"
+                        size="sm"
+                      >
                         👁️ Ver Meu Perfil Público
-                      </Link>
-                      <Link as={RouterLink} to="/bartender/editar" color="cyan.300" fontWeight="800" _hover={{ color: 'cyan.100' }}>
-                        ✏️ Editar meu Perfil (Foto, Preço, Especialidade)
-                      </Link>
+                      </Button>
+                      <Button
+                        as={RouterLink}
+                        to="/bartender/editar"
+                        variant="outline"
+                        colorScheme="teal"
+                        size="sm"
+                      >
+                        ✏️ Editar Foto e Preço
+                      </Button>
                     </>
                   )}
 
                   {userData.role === 'administrador' && (
-                    <>
-                      <PainelAdmin />
-                      <Link as={RouterLink} to="/admin/moderar-avaliacoes" color="red.300" fontWeight="bold">
-                        🛡️ Moderar Avaliações do Sistema
-                      </Link>
-                    </>
+                    <Button
+                      as={RouterLink}
+                      to="/admin/moderar-avaliacoes"
+                      colorScheme="red"
+                      size="sm"
+                    >
+                      🛡️ Moderar Avaliações
+                    </Button>
                   )}
-                </VStack>
+                </HStack>
+              </Box>
 
-                {/* Lista de Agendamentos e Orçamentos para Clientes ou Bartenders */}
-                {(userData.role === 'cliente' || userData.role === 'bartender') && (
-                  <Box width="full" pt={4}>
-                    <ListaAgendamentos role={userData.role} />
-                  </Box>
-                )}
-              </>
-            ) : (
-              <Text>Não foi possível carregar os dados do usuário.</Text>
-            )}
+              {/* Lista de Agendamentos e Orçamentos */}
+              {(userData.role === 'cliente' || userData.role === 'bartender') && (
+                <Box width="full" pt={2}>
+                  <ListaAgendamentos role={userData.role} />
+                </Box>
+              )}
 
-            <Button mt={4} colorScheme="red" variant="outline" borderRadius="full" onClick={handleLogout}>
+              {/* Painel de Estatísticas / Controle do Admin */}
+              {userData.role === 'administrador' && (
+                <Box pt={4}>
+                  <PainelAdmin />
+                </Box>
+              )}
+            </>
+          ) : (
+            <Text color="gray.400">Não foi possível carregar os dados do usuário.</Text>
+          )}
+
+          <Divider borderColor="#263147" pt={4} />
+
+          <Box>
+            <Button colorScheme="red" variant="outline" size="sm" onClick={handleLogout}>
               Sair da Conta
             </Button>
-          </VStack>
-        </Box>
-      </VStack>
-    </Box>
+          </Box>
+        </VStack>
+      </Box>
+    </Container>
   );
 }

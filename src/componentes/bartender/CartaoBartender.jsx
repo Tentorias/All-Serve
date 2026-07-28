@@ -4,6 +4,7 @@ import {
   Box,
   Image,
   Text,
+  Badge,
   VStack,
   HStack,
   Icon,
@@ -25,81 +26,74 @@ export default function CartaoBartender({ bartender }) {
     totalAvaliacoes = 0,
   } = bartender;
 
-  // Imagem de coquetel cristalino de alta qualidade como padrão
-  const placeholderImage =
-    'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80';
+  const placeholderImage = 'https://via.placeholder.com/400x250/161c28/94a3b8?text=Bartender';
 
   return (
     <Box
-      className="glacial-card"
+      bg="#161c28"
+      borderWidth="1px"
+      borderColor="#263147"
+      borderRadius="xl"
       overflow="hidden"
+      boxShadow="lg"
       width="100%"
-      display="flex"
-      flexDirection="column"
+      transition="all 0.25s ease"
+      _hover={{
+        transform: 'translateY(-4px)',
+        borderColor: 'teal.400',
+        boxShadow: '2xl',
+      }}
     >
-      <Box position="relative" overflow="hidden">
-        <Image
-          src={fotoURL || placeholderImage}
-          alt={`Foto de ${nome}`}
-          height="210px"
-          width="100%"
-          objectFit="cover"
-          transition="transform 0.4s ease"
-          _hover={{ transform: 'scale(1.05)' }}
-        />
-        {/* Camada de brilho na base da imagem */}
-        <Box
-          position="absolute"
-          bottom={0}
-          left={0}
-          right={0}
-          height="45px"
-          bgGradient="linear(to-t, rgba(13, 25, 42, 0.95), transparent)"
-        />
-      </Box>
+      <Image
+        src={fotoURL || placeholderImage}
+        alt={`Foto de ${nome || bartender.email}`}
+        height="200px"
+        width="100%"
+        objectFit="cover"
+      />
 
-      <VStack p={5} align="stretch" spacing={4} flex="1" justify="space-between">
-        <VStack align="stretch" spacing={2}>
-          <Heading as="h3" size="md" noOfLines={1} color="white" fontWeight="800">
-            {nome || bartender.email?.split('@')[0] || 'Bartender'}
-          </Heading>
+      <VStack p={5} align="stretch" spacing={3}>
+        <Heading as="h3" size="md" noOfLines={1} color="white">
+          {nome || bartender.email}
+        </Heading>
 
-          <Box>
-            <span className="glacial-badge">
-              🍸 {especialidade || 'Mixologia Geral'}
-            </span>
-          </Box>
-        </VStack>
+        <Badge
+          colorScheme="teal"
+          alignSelf="flex-start"
+          px={2}
+          py={0.5}
+          borderRadius="md"
+          fontSize="xs"
+        >
+          {especialidade || 'Coquetelaria em Geral'}
+        </Badge>
 
-        <VStack align="stretch" spacing={3} pt={2}>
-          <HStack justify="space-between" align="center">
-            <Text fontWeight="900" fontSize="xl" className="glacial-text-gradient">
-              R$ {precoPorHora || '150'}/h
+        <HStack justify="space-between" pt={1}>
+          <Text fontWeight="700" fontSize="lg" color="teal.300">
+            R$ {precoPorHora || 0}/h
+          </Text>
+          <HStack spacing={1}>
+            <Icon as={IconeEstrela} color="gold" boxSize={4} />
+            <Text fontWeight="bold" fontSize="sm" color="white">
+              {mediaAvaliacao.toFixed(1)}
             </Text>
-            <HStack
-              spacing={1.5}
-              bg="rgba(255, 215, 0, 0.15)"
-              px={2.5}
-              py={1}
-              borderRadius="full"
-              border="1px solid rgba(255, 215, 0, 0.35)"
-            >
-              <Icon as={IconeEstrela} color="yellow.400" />
-              <Text fontWeight="bold" fontSize="sm" color="white">
-                {mediaAvaliacao.toFixed(1)}
-              </Text>
-              <Text color="cyan.200" fontSize="xs">
-                ({totalAvaliacoes})
-              </Text>
-            </HStack>
+            <Text color="gray.400" fontSize="xs">
+              ({totalAvaliacoes})
+            </Text>
           </HStack>
+        </HStack>
 
-          <ChakraLink as={RouterLink} to={`/bartender/${id}`} _hover={{ textDecoration: 'none' }}>
-            <Button width="full" className="glacial-btn" py={5}>
-              Ver Perfil Completo ✨
-            </Button>
-          </ChakraLink>
-        </VStack>
+        <ChakraLink as={RouterLink} to={`/bartender/${id}`} pt={2}>
+          <Button
+            width="full"
+            colorScheme="teal"
+            variant="outline"
+            size="sm"
+            _hover={{ bg: 'rgba(45, 212, 191, 0.1)' }}
+          >
+            Ver Perfil Completo
+          </Button>
+        </ChakraLink>
       </VStack>
     </Box>
   );

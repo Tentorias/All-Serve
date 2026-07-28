@@ -58,14 +58,16 @@ export default function ListaBartenders() {
             bartenders.map((bartender) => (
               <Box
                 key={bartender.id}
-                p={5}
+                p={6}
                 borderWidth={1}
-                borderRadius={8}
-                boxShadow="md"
+                borderColor="#263147"
+                bg="#161c28"
+                borderRadius="xl"
+                boxShadow="lg"
                 textAlign="center"
               >
-                <Heading size="md">{bartender.email}</Heading>
-                <Text mt={2}>ID: {bartender.id}</Text>
+                <Heading size="md" color="white">{bartender.email}</Heading>
+                <Text mt={2} color="gray.400" fontSize="sm">ID: {bartender.id}</Text>
                 <ChakraLink as={RouterLink} to={`/bartender/${bartender.id}`}>
                   <Button mt={4} colorScheme="teal" variant="outline">
                     Ver Perfil

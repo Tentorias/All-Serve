@@ -21,73 +21,67 @@ export default function BarraNavegacao() {
 
   return (
     <Box
-      as="header"
+      as="nav"
+      bg="rgba(22, 28, 40, 0.85)"
+      backdropFilter="blur(12px)"
+      borderBottom="1px solid"
+      borderColor="#263147"
+      px={6}
+      py={4}
       position="sticky"
       top={0}
       zIndex={1000}
-      className="glacial-navbar"
-      px={6}
-      py={3}
     >
-      <Flex maxW="1200px" margin="auto" justify="space-between" align="center">
-        {/* Logo All-Serve com efeito Glacial */}
+      <Flex maxW="container.xl" margin="auto" justify="space-between" align="center">
+        {/* Logo */}
         <Heading
           as={RouterLink}
           to="/"
           size="md"
+          letterSpacing="wide"
           display="flex"
           alignItems="center"
           gap={2}
-          _hover={{ opacity: 0.85 }}
-          textDecoration="none"
+          _hover={{ opacity: 0.9 }}
         >
-          <Text as="span" fontSize="2xl">💎</Text>
-          <Text as="span" className="glacial-text-gradient" fontSize="xl" fontWeight="900" letterSpacing="tight">
-            All-Serve
+          <span>🍹</span>
+          <Text as="span" color="white" fontWeight="800">
+            All
+          </Text>
+          <Text as="span" color="teal.400" fontWeight="800">
+            Serve
           </Text>
         </Heading>
 
-        {/* Itens de Navegação */}
+        {/* Links de navegação */}
         <HStack spacing={6} align="center">
           {currentUser ? (
             <>
               <Link
                 as={RouterLink}
                 to="/buscar"
-                fontWeight="600"
-                color="white"
-                _hover={{ color: 'cyan.300', textDecoration: 'none', transform: 'translateY(-1px)' }}
-                transition="all 0.2s"
+                color="gray.300"
+                fontWeight="500"
+                _hover={{ color: 'teal.300', textDecoration: 'none' }}
               >
-                🍸 Buscar Bartenders
+                Buscar Bartenders
               </Link>
               <Link
                 as={RouterLink}
                 to="/painel"
-                fontWeight="600"
-                color="white"
-                _hover={{ color: 'cyan.300', textDecoration: 'none', transform: 'translateY(-1px)' }}
-                transition="all 0.2s"
+                color="gray.300"
+                fontWeight="500"
+                _hover={{ color: 'teal.300', textDecoration: 'none' }}
               >
-                📊 Meu Painel
+                Painel
               </Link>
-              <Box
-                px={3}
-                py={1}
-                borderRadius="full"
-                bg="rgba(0, 198, 255, 0.15)"
-                border="1px solid rgba(0, 198, 255, 0.4)"
-                display={{ base: 'none', md: 'block' }}
-              >
-                <Text fontSize="xs" fontWeight="bold" color="cyan.200">
-                  ⚡ {currentUser.email?.split('@')[0]}
-                </Text>
-              </Box>
+              <Text color="gray.400" fontSize="sm" display={{ base: 'none', md: 'block' }}>
+                {currentUser.email}
+              </Text>
               <Button
                 size="sm"
-                colorScheme="red"
                 variant="outline"
-                borderRadius="full"
+                colorScheme="red"
                 onClick={handleLogout}
               >
                 Sair
@@ -98,9 +92,9 @@ export default function BarraNavegacao() {
               <Link
                 as={RouterLink}
                 to="/login"
-                fontWeight="600"
-                color="white"
-                _hover={{ color: 'cyan.300', textDecoration: 'none' }}
+                color="gray.300"
+                fontWeight="500"
+                _hover={{ color: 'teal.300', textDecoration: 'none' }}
               >
                 Entrar
               </Link>
@@ -108,11 +102,10 @@ export default function BarraNavegacao() {
                 as={RouterLink}
                 to="/cadastro"
                 size="sm"
-                className="glacial-btn"
-                px={5}
-                py={2}
+                colorScheme="teal"
+                fontWeight="bold"
               >
-                ✨ Criar Conta
+                Criar Conta
               </Button>
             </>
           )}

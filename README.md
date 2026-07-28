@@ -10,7 +10,7 @@ A aplicação permite o cadastro de usuários com diferentes perfis (**Cliente**
 
 - **Frontend:** React 18 (com Vite), React Router DOM 7
 - **Backend & Banco de Dados:** Firebase Authentication e Cloud Firestore
-- **Interface e Estilização:** Chakra UI + Design System **Dark Aero / Glacial Night Aero** (tema escuro acrílico com auroras árticas, efeitos *frosted glass blur*, botões *glossy* e paleta obsidiana/ciano)
+- **Interface e Estilização:** Chakra UI com tema personalizado **Dark Mode Simples e Tranquilo** (`#0f131c`, tipografia Google Fonts Outfit/Inter e cartões em tons noturnos com bordas escuras).
 - **Gerenciamento de Estado:** React Context API (`ContextoAutenticacao`)
 
 ---

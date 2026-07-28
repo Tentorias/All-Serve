@@ -14,7 +14,6 @@ import {
   useToast,
   Divider,
   SimpleGrid,
-  Icon,
 } from '@chakra-ui/react';
 import {
   collection,
@@ -50,7 +49,6 @@ export default function ListaAgendamentos({ role }) {
         ...docSnap.data(),
       }));
 
-      // Ordenar por data de evento de forma simples no lado do cliente
       lista.sort((a, b) => (a.dataEvento > b.dataEvento ? 1 : -1));
       setAgendamentos(lista);
     } catch (error) {
@@ -107,20 +105,20 @@ export default function ListaAgendamentos({ role }) {
   const renderBadgeStatus = (status) => {
     switch (status) {
       case 'aceito':
-        return <Badge colorScheme="green" px={2} py={1} borderRadius="md">Aceito</Badge>;
+        return <Badge colorScheme="green" px={2.5} py={1} borderRadius="md">Aceito</Badge>;
       case 'recusado':
-        return <Badge colorScheme="red" px={2} py={1} borderRadius="md">Recusado</Badge>;
+        return <Badge colorScheme="red" px={2.5} py={1} borderRadius="md">Recusado</Badge>;
       case 'cancelado':
-        return <Badge colorScheme="gray" px={2} py={1} borderRadius="md">Cancelado</Badge>;
+        return <Badge colorScheme="gray" px={2.5} py={1} borderRadius="md">Cancelado</Badge>;
       default:
-        return <Badge colorScheme="yellow" px={2} py={1} borderRadius="md">Pendente</Badge>;
+        return <Badge colorScheme="yellow" px={2.5} py={1} borderRadius="md">Pendente</Badge>;
     }
   };
 
   if (loading) {
     return (
       <Center p={8}>
-        <Spinner size="lg" color="teal.500" />
+        <Spinner size="lg" color="teal.400" />
       </Center>
     );
   }
@@ -133,14 +131,21 @@ export default function ListaAgendamentos({ role }) {
             ? '📅 Solicitações de Orçamento / Agendamento Recebidas'
             : '📅 Meus Orçamentos e Reservas Solicitadas'}
         </Heading>
-        <Button size="sm" onClick={fetchAgendamentos} variant="ghost" colorScheme="teal">
+        <Button size="sm" onClick={fetchAgendamentos} variant="outline" colorScheme="teal">
           🔄 Atualizar
         </Button>
       </HStack>
 
       {agendamentos.length === 0 ? (
-        <Box p={6} className="glacial-card" textAlign="center">
-          <Text color="cyan.100">
+        <Box
+          p={6}
+          borderWidth={1}
+          borderColor="#263147"
+          borderRadius="lg"
+          bg="#161c28"
+          textAlign="center"
+        >
+          <Text color="gray.400">
             {role === 'bartender'
               ? 'Você ainda não recebeu nenhuma solicitação de orçamento ou agendamento.'
               : 'Você ainda não fez nenhuma solicitação de agendamento com um bartender.'}
@@ -151,48 +156,50 @@ export default function ListaAgendamentos({ role }) {
           {agendamentos.map((item) => (
             <Box
               key={item.id}
-              p={6}
-              className="glacial-card"
-              position="relative"
+              p={5}
+              borderWidth={1}
+              borderColor="#263147"
+              borderRadius="xl"
+              boxShadow="lg"
+              bg="#161c28"
             >
-              <HStack justify="space-between" mb={3}>
-                <Text fontWeight="900" fontSize="lg" color="white">
-                  🍸 {item.tipoEvento || 'Evento Especial'}
+              <HStack justify="space-between" mb={2}>
+                <Text fontWeight="bold" fontSize="lg" color="white">
+                  {item.tipoEvento || 'Evento Especial'}
                 </Text>
                 {renderBadgeStatus(item.status)}
               </HStack>
 
-              <Divider my={2} />
+              <Divider borderColor="#263147" my={2} />
 
-              <VStack align="start" spacing={1.5} fontSize="sm" color="cyan.100">
+              <VStack align="start" spacing={1.5} fontSize="sm" color="gray.300">
                 <Text>
-                  <strong>{role === 'bartender' ? 'Cliente:' : 'Bartender:'}</strong>{' '}
+                  <strong style={{ color: '#fff' }}>{role === 'bartender' ? 'Cliente:' : 'Bartender:'}</strong>{' '}
                   {role === 'bartender'
                     ? item.clienteEmail
                     : item.bartenderNome || item.bartenderEmail}
                 </Text>
                 <Text>
-                  <strong>Data do Evento:</strong> {item.dataEvento || 'Não informada'}
+                  <strong style={{ color: '#fff' }}>Data do Evento:</strong> {item.dataEvento || 'Não informada'}
                 </Text>
                 <Text>
-                  <strong>Duração:</strong> {item.horas || 0} hora(s)
+                  <strong style={{ color: '#fff' }}>Duração:</strong> {item.horas || 0} hora(s)
                 </Text>
                 <Text>
-                  <strong>Local:</strong> {item.localEvento || 'A combinar'}
+                  <strong style={{ color: '#fff' }}>Local:</strong> {item.localEvento || 'A combinar'}
                 </Text>
-                <Text fontWeight="bold" color="teal.600" fontSize="md">
-                  <strong>Valor Estimado:</strong> R$ {item.valorEstimado?.toFixed(2) || '0.00'}
+                <Text fontWeight="bold" color="teal.300" fontSize="md" pt={1}>
+                  Valor Estimado: R$ {item.valorEstimado?.toFixed(2) || '0.00'}
                 </Text>
                 {item.observacoes && (
-                  <Text fontStyle="italic" color="gray.600" mt={1}>
+                  <Text fontStyle="italic" color="gray.400" mt={1}>
                     "{item.observacoes}"
                   </Text>
                 )}
               </VStack>
 
-              {/* Botões de Ação para o Bartender em solicitações pendentes */}
               {role === 'bartender' && item.status === 'pendente' && (
-                <HStack spacing={3} mt={4} pt={2} borderTopWidth={1}>
+                <HStack spacing={3} mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
                   <Button
                     size="sm"
                     colorScheme="green"
@@ -213,9 +220,8 @@ export default function ListaAgendamentos({ role }) {
                 </HStack>
               )}
 
-              {/* Botão de cancelar para o Cliente caso ainda esteja pendente */}
               {role === 'cliente' && item.status === 'pendente' && (
-                <HStack mt={4} pt={2} borderTopWidth={1}>
+                <HStack mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
                   <Button
                     size="sm"
                     colorScheme="gray"

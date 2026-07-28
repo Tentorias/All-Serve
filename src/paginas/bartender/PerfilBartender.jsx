@@ -150,83 +150,75 @@ export default function PerfilBartender() {
     );
   }
 
-  const placeholderImage = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80';
+  const placeholderImage = 'https://via.placeholder.com/300x200?text=Bartender';
   const valorEstimadoCalculado = ((Number(bartender?.precoPorHora) || 0) * (Number(horas) || 1)).toFixed(2);
 
   return (
-    <Box py={8} px={4} maxWidth="1000px" margin="auto">
+    <Box p={8} maxWidth="900px" margin="auto">
       {bartender ? (
         <VStack spacing={8} align="stretch">
-          {/* Cabeçalho do Perfil - Vidro Glacial Aero */}
+          {/* Cabeçalho do Perfil */}
           <Flex
             direction={{ base: 'column', md: 'row' }}
             align="center"
-            gap={8}
-            p={8}
-            className="glacial-card"
+            gap={6}
+            p={6}
+            borderWidth={1}
+            borderColor="#263147"
+            borderRadius="lg"
+            boxShadow="md"
+            bg="#161c28"
           >
             <Image
               src={bartender.fotoURL || placeholderImage}
               alt={`Foto de ${bartender.nome || bartender.email}`}
-              boxSize="160px"
+              boxSize="150px"
               objectFit="cover"
               borderRadius="full"
-              className="glacial-avatar"
+              border="3px solid"
+              borderColor="teal.500"
             />
-            <VStack align={{ base: 'center', md: 'flex-start' }} spacing={3} flex={1}>
-              <Heading size="xl" color="white" fontWeight="900">
-                {bartender.nome || bartender.email}
-              </Heading>
+            <VStack align={{ base: 'center', md: 'flex-start' }} spacing={2} flex={1}>
+              <Heading size="lg">{bartender.nome || bartender.email}</Heading>
               {bartender.especialidade && (
-                <Box>
-                  <span className="glacial-badge">
-                    🍸 {bartender.especialidade}
-                  </span>
-                </Box>
+                <Badge colorScheme="teal" fontSize="0.9em" px={2} py={1}>
+                  {bartender.especialidade}
+                </Badge>
               )}
               {bartender.precoPorHora !== undefined && (
-                <Text fontWeight="900" fontSize="2xl" className="glacial-text-gradient">
-                  R$ {bartender.precoPorHora}/h
+                <Text fontWeight="bold" fontSize="lg" color="teal.300">
+                  R$ {bartender.precoPorHora}/hora
                 </Text>
               )}
-              <HStack
-                spacing={2}
-                bg="rgba(255, 215, 0, 0.15)"
-                px={3}
-                py={1}
-                borderRadius="full"
-                border="1px solid rgba(255, 215, 0, 0.35)"
-              >
-                <Text fontSize="xl" fontWeight="800" color="white">{media.toFixed(1)}</Text>
-                <Icon as={IconeEstrela} color="yellow.400" boxSize={6} />
-                <Text color="cyan.200" fontSize="sm">({avaliacoes.length} avaliações)</Text>
+              <HStack spacing={1}>
+                <Text fontSize="xl" fontWeight="bold">{media.toFixed(1)}</Text>
+                <Icon as={IconeEstrela} color="gold" boxSize={6} />
+                <Text color="gray.500">({avaliacoes.length} avaliações)</Text>
               </HStack>
             </VStack>
 
-            {/* Ações: Botão Editar para o Próprio Bartender ou Botão Glacial para Clientes */}
-            <VStack spacing={3} width={{ base: 'full', md: 'auto' }}>
+            {/* Ações: Botão Editar para o Próprio Bartender ou Botões para Clientes */}
+            <VStack spacing={3}>
               {currentUser && currentUser.uid === bartenderId ? (
                 <Button
                   as={RouterLink}
                   to="/bartender/editar"
-                  className="glacial-btn"
+                  colorScheme="teal"
                   size="md"
-                  px={6}
-                  py={5}
+                  width="full"
                 >
-                  ✏️ Editar Meu Perfil ✨
+                  ✏️ Editar Perfil
                 </Button>
               ) : (
                 <>
                   <Button
                     onClick={onOpen}
-                    className="glacial-btn"
-                    size="lg"
-                    px={8}
-                    py={6}
+                    colorScheme="teal"
+                    size="md"
                     width="full"
+                    fontWeight="bold"
                   >
-                    📅 Solicitar Orçamento ✨
+                    📅 Solicitar Orçamento / Reserva
                   </Button>
                   <Button
                     as={RouterLink}
@@ -255,12 +247,13 @@ export default function PerfilBartender() {
                     key={avaliacao.id}
                     p={4}
                     borderWidth={1}
+                    borderColor="#263147"
                     borderRadius={8}
                     boxShadow="sm"
-                    bg="gray.50"
+                    bg="#161c28"
                   >
                     <HStack justify="space-between" mb={2}>
-                      <Text fontWeight="bold" color="teal.700">
+                      <Text fontWeight="bold" color="teal.300">
                         {avaliacao.clienteEmail}
                       </Text>
                       <HStack spacing={1}>
@@ -268,13 +261,13 @@ export default function PerfilBartender() {
                           <Icon
                             key={i}
                             as={IconeEstrela}
-                            color={i < avaliacao.nota ? 'gold' : 'gray.300'}
+                            color={i < avaliacao.nota ? 'gold' : 'gray.600'}
                           />
                         ))}
                       </HStack>
                     </HStack>
                     {avaliacao.comentario && (
-                      <Text fontStyle="italic" color="gray.700">
+                      <Text fontStyle="italic" color="gray.300">
                         "{avaliacao.comentario}"
                       </Text>
                     )}
@@ -294,9 +287,9 @@ export default function PerfilBartender() {
               <ModalCloseButton />
               <ModalBody>
                 <VStack spacing={4} align="stretch">
-                  <Text fontSize="sm" color="gray.600">
+                  <Text fontSize="sm" color="gray.300">
                     Preencha os dados do seu evento para enviar um pedido a{' '}
-                    <strong>{bartender.nome || bartender.email}</strong>.
+                    <strong style={{ color: '#fff' }}>{bartender.nome || bartender.email}</strong>.
                   </Text>
 
                   <FormControl isRequired>

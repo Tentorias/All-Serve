@@ -4,162 +4,146 @@ import {
   Box,
   Heading,
   Text,
+  Button,
   VStack,
   HStack,
   SimpleGrid,
-  Button,
   Container,
-  Flex,
+  Badge,
+  Icon,
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useAuth } from '../contexto/ContextoAutenticacao.jsx';
+import IconeEstrela from '../componentes/comuns/IconeEstrela.jsx';
 
 export default function Inicio() {
-  const { currentUser } = useAuth();
-
   return (
-    <Box py={12} px={4}>
-      <Container maxW="1150px">
-        {/* Hero Section Glacial Aero */}
-        <VStack spacing={8} textAlign="center" py={10}>
-          {/* Tag estilo gota d'água */}
-          <Box className="glacial-badge" px={4} py={1.5} fontSize="sm">
-            ✨ A Revolução Glacial na Coquetelaria de Eventos
-          </Box>
+    <Box>
+      {/* Seção Principal (Hero) */}
+      <Container maxW="container.lg" pt={{ base: 16, md: 24 }} pb={16} textAlign="center">
+        <VStack spacing={6} align="center">
+          <Badge
+            colorScheme="teal"
+            px={3}
+            py={1}
+            borderRadius="full"
+            fontSize="xs"
+            letterSpacing="wider"
+            textTransform="uppercase"
+          >
+            🍹 Coquetelaria Para Eventos Exclusivos
+          </Badge>
 
           <Heading
             as="h1"
-            fontSize={{ base: '3xl', md: '5xl', lg: '6xl' }}
-            fontWeight="900"
-            lineHeight="1.1"
-            maxW="850px"
+            size="2xl"
+            fontWeight="800"
+            lineHeight="1.2"
+            maxW="750px"
             color="white"
           >
-            Bartenders Exclusivos.{' '}
-            <Text as="span" className="glacial-text-gradient">
-              Experiências Refrescantes.
-            </Text>
+            Bartenders Profissionais Para o Seu Próximo Evento
           </Heading>
 
           <Text
-            fontSize={{ base: 'lg', md: 'xl' }}
-            color="cyan.100"
-            maxW="700px"
-            fontWeight="500"
+            fontSize={{ base: 'md', md: 'lg' }}
+            color="gray.400"
+            maxW="600px"
             lineHeight="1.7"
           >
-            Conectamos anfitriões exigentes aos melhores profissionais de coquetelaria do mercado. 
-            Orçamentos transparentes, notas reais e agendamentos instantâneos com a pureza e o brilho noturno do design Dark Aero.
+            Solicite orçamentos, confira avaliações reais e agende os melhores
+            especialistas em coquetelaria da sua região com total tranquilidade.
           </Text>
 
-          {/* Botões de Ação */}
-          <Flex
-            gap={4}
-            direction={{ base: 'column', sm: 'row' }}
-            pt={4}
-            justify="center"
-            width={{ base: '100%', sm: 'auto' }}
-          >
+          <HStack spacing={4} pt={4} justify="center" flexWrap="wrap">
             <Button
               as={RouterLink}
               to="/buscar"
               size="lg"
-              className="glacial-btn"
+              colorScheme="teal"
               px={8}
-              py={7}
-              fontSize="lg"
+              shadow="lg"
+              _hover={{ transform: 'translateY(-2px)', shadow: 'xl' }}
             >
-              🔍 Encontrar Bartenders
+              🔍 Explorar Bartenders
             </Button>
-            {!currentUser && (
-              <Button
-                as={RouterLink}
-                to="/cadastro"
-                size="lg"
-                variant="outline"
-                color="cyan.300"
-                px={8}
-                py={7}
-                fontSize="lg"
-                bg="rgba(9, 18, 31, 0.75)"
-                border="2px solid"
-                borderColor="cyan.400"
-                _hover={{
-                  bg: 'rgba(0, 198, 255, 0.15)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 8px 25px rgba(0, 198, 255, 0.3)',
-                }}
-              >
-                🍸 Sou Bartender
-              </Button>
-            )}
-          </Flex>
+            <Button
+              as={RouterLink}
+              to="/cadastro"
+              size="lg"
+              variant="outline"
+              colorScheme="teal"
+              px={8}
+              _hover={{ bg: 'rgba(45, 212, 191, 0.08)' }}
+            >
+              🍸 Sou Bartender
+            </Button>
+          </HStack>
         </VStack>
+      </Container>
 
-        {/* Destaques em Cartões de Vidro Acrílico (Glassmorphism) */}
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} mt={14} mb={10}>
-          <Box className="glacial-card" p={8} textAlign="left">
-            <Text fontSize="4xl" mb={3}>🧊</Text>
-            <Heading size="md" mb={2} color="white">
-              Cristal & Gelo
-            </Heading>
-            <Text color="cyan.100" fontSize="sm">
-              Profissionais especializados em coquetelaria molecular, drinks clássicos 
-              e apresentações impecáveis em taças e copos de cristal.
+      {/* Seção de Diferenciais (Tranquilo e Dark) */}
+      <Container maxW="container.xl" py={12}>
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+          <Box
+            p={6}
+            bg="#161c28"
+            borderWidth="1px"
+            borderColor="#263147"
+            borderRadius="xl"
+            shadow="md"
+            _hover={{ borderColor: 'teal.500', transform: 'translateY(-2px)' }}
+            transition="all 0.2s"
+          >
+            <HStack spacing={2} mb={3}>
+              <Icon as={IconeEstrela} color="gold" boxSize={5} />
+              <Heading size="md" color="white">
+                Avaliações Verificadas
+              </Heading>
+            </HStack>
+            <Text color="gray.400" fontSize="sm">
+              Escolha com confiança conferindo notas e comentários reais deixados por
+              clientes que já contrataram cada profissional.
             </Text>
           </Box>
 
-          <Box className="glacial-card" p={8} textAlign="left">
-            <Text fontSize="4xl" mb={3}>💎</Text>
-            <Heading size="md" mb={2} color="white">
-              Orçamentos sem Burocracia
+          <Box
+            p={6}
+            bg="#161c28"
+            borderWidth="1px"
+            borderColor="#263147"
+            borderRadius="xl"
+            shadow="md"
+            _hover={{ borderColor: 'teal.500', transform: 'translateY(-2px)' }}
+            transition="all 0.2s"
+          >
+            <Heading size="md" color="white" mb={3}>
+              📅 Orçamento Prático
             </Heading>
-            <Text color="cyan.100" fontSize="sm">
-              Calcule estimativas por hora de forma automática em tempo real e envie 
-              solicitações de reserva direto pelo perfil público de cada bartender.
+            <Text color="gray.400" fontSize="sm">
+              Solicite cotações e agende a data do seu evento rapidamente e sem burocracia
+              diretamente pelo perfil público do bartender.
             </Text>
           </Box>
 
-          <Box className="glacial-card" p={8} textAlign="left">
-            <Text fontSize="4xl" mb={3}>🌐</Text>
-            <Heading size="md" mb={2} color="white">
-              Transparência & RBAC
+          <Box
+            p={6}
+            bg="#161c28"
+            borderWidth="1px"
+            borderColor="#263147"
+            borderRadius="xl"
+            shadow="md"
+            _hover={{ borderColor: 'teal.500', transform: 'translateY(-2px)' }}
+            transition="all 0.2s"
+          >
+            <Heading size="md" color="white" mb={3}>
+              🍸 Especialistas Diversos
             </Heading>
-            <Text color="cyan.100" fontSize="sm">
-              Avaliações autênticas em estrelas, comentários moderados e controle 
-              de acesso seguro em nuvem alimentado pelo Firebase.
+            <Text color="gray.400" fontSize="sm">
+              Encontre o estilo ideal para a sua celebração: coquetelaria clássica,
+              mixologia molecular ou drinks sem álcool.
             </Text>
           </Box>
         </SimpleGrid>
-
-        {/* Banner Inferior Acrílico */}
-        <Box
-          className="glacial-card"
-          p={{ base: 8, md: 12 }}
-          mt={12}
-          textAlign="center"
-          position="relative"
-          overflow="hidden"
-        >
-          <VStack spacing={4}>
-            <Heading size="lg" color="white">
-              Pronto para transformar sua celebração?
-            </Heading>
-            <Text color="cyan.100" maxW="550px">
-              Explore nossa seleção de profissionais ou cadastre seus serviços na comunidade mais brilhante da coquetelaria.
-            </Text>
-            <Button
-              as={RouterLink}
-              to="/buscar"
-              className="glacial-btn"
-              size="md"
-              px={8}
-              mt={2}
-            >
-              Explorar Catálogo Agora ✨
-            </Button>
-          </VStack>
-        </Box>
       </Container>
     </Box>
   );
