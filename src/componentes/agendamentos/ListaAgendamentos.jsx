@@ -44,18 +44,29 @@ export default function ListaAgendamentos({ role }) {
     setErrorPermissao(false);
     setErrorMessage(null);
     try {
-      const roleNormalized = (role || 'cliente').toLowerCase().trim();
-      const campoBusca = roleNormalized === 'bartender' ? 'bartenderId' : 'clienteId';
-      const q = query(
+      const qRecebidos = query(
         collection(db, 'agendamentos'),
-        where(campoBusca, '==', currentUser.uid)
+        where('bartenderId', '==', currentUser.uid)
+      );
+      const qEnviados = query(
+        collection(db, 'agendamentos'),
+        where('clienteId', '==', currentUser.uid)
       );
 
-      const querySnapshot = await getDocs(q);
-      const lista = querySnapshot.docs.map((docSnap) => ({
-        id: docSnap.id,
-        ...docSnap.data(),
-      }));
+      const [snapRecebidos, snapEnviados] = await Promise.all([
+        getDocs(qRecebidos),
+        getDocs(qEnviados),
+      ]);
+
+      const mapa = new Map();
+      snapRecebidos.docs.forEach((docSnap) => {
+        mapa.set(docSnap.id, { id: docSnap.id, ...docSnap.data() });
+      });
+      snapEnviados.docs.forEach((docSnap) => {
+        mapa.set(docSnap.id, { id: docSnap.id, ...docSnap.data() });
+      });
+
+      const lista = Array.from(mapa.values());
 
       lista.sort((a, b) => {
         const dataA = a.dataEvento || '';
@@ -92,7 +103,7 @@ export default function ListaAgendamentos({ role }) {
     } finally {
       setLoading(false);
     }
-  }, [currentUser, role, toast]);
+  }, [currentUser, toast]);
 
   useEffect(() => {
     fetchAgendamentos();
@@ -252,21 +263,35 @@ service cloud.firestore {
               boxShadow="lg"
               bg="#161c28"
             >
-              <HStack justify="space-between" mb={2}>
+              <HStack justify="space-between" mb={2} flexWrap="wrap">
                 <Text fontWeight="bold" fontSize="lg" color="white">
                   {item.tipoEvento || 'Evento Especial'}
                 </Text>
-                {renderBadgeStatus(item.status)}
+                <HStack spacing={2} flexWrap="wrap">
+                  {item.bartenderId === currentUser?.uid && (
+                    <Badge colorScheme="purple" fontSize="0.75em" px={2} py={0.5} borderRadius="md">
+                      📥 Trabalho Recebido
+                    </Badge>
+                  )}
+                  {item.clienteId === currentUser?.uid && (
+                    <Badge colorScheme="blue" fontSize="0.75em" px={2} py={0.5} borderRadius="md">
+                      📤 Solicitado por mim
+                    </Badge>
+                  )}
+                  {renderBadgeStatus(item.status)}
+                </HStack>
               </HStack>
 
               <Divider borderColor="#263147" my={2} />
 
               <VStack align="start" spacing={1.5} fontSize="sm" color="gray.300">
                 <Text>
-                  <strong style={{ color: '#fff' }}>{role === 'bartender' ? 'Cliente:' : 'Bartender:'}</strong>{' '}
-                  {role === 'bartender'
-                    ? item.clienteEmail
-                    : item.bartenderNome || item.bartenderEmail}
+                  <strong style={{ color: '#fff' }}>Bartender Prestador:</strong>{' '}
+                  {item.bartenderNome || item.bartenderEmail}
+                </Text>
+                <Text>
+                  <strong style={{ color: '#fff' }}>Contratante (Cliente/Parceiro):</strong>{' '}
+                  {item.clienteEmail}
                 </Text>
                 <Text>
                   <strong style={{ color: '#fff' }}>Data do Evento:</strong> {item.dataEvento || 'Não informada'}
@@ -287,7 +312,7 @@ service cloud.firestore {
                 )}
               </VStack>
 
-              {role === 'bartender' && item.status === 'pendente' && (
+              {item.bartenderId === currentUser?.uid && item.status === 'pendente' && (
                 <HStack spacing={3} mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
                   <Button
                     size="sm"
@@ -321,27 +346,29 @@ service cloud.firestore {
                 </HStack>
               )}
 
-              {role === 'cliente' && item.status === 'pendente' && (
-                <HStack mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
-                  <Button
-                    size="sm"
-                    colorScheme="red"
-                    variant="outline"
-                    color="red.300"
-                    borderColor="red.500"
-                    fontWeight="semibold"
-                    _hover={{
-                      bg: 'rgba(245, 101, 101, 0.15)',
-                      borderColor: 'red.300',
-                      color: 'white',
-                    }}
-                    isLoading={processandoId === item.id}
-                    onClick={() => atualizarStatus(item.id, 'cancelado')}
-                  >
-                    ❌ Cancelar Solicitação
-                  </Button>
-                </HStack>
-              )}
+              {item.clienteId === currentUser?.uid &&
+                item.bartenderId !== currentUser?.uid &&
+                item.status === 'pendente' && (
+                  <HStack mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
+                    <Button
+                      size="sm"
+                      colorScheme="red"
+                      variant="outline"
+                      color="red.300"
+                      borderColor="red.500"
+                      fontWeight="semibold"
+                      _hover={{
+                        bg: 'rgba(245, 101, 101, 0.15)',
+                        borderColor: 'red.300',
+                        color: 'white',
+                      }}
+                      isLoading={processandoId === item.id}
+                      onClick={() => atualizarStatus(item.id, 'cancelado')}
+                    >
+                      ❌ Cancelar Solicitação
+                    </Button>
+                  </HStack>
+                )}
             </Box>
           ))}
         </SimpleGrid>

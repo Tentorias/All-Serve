@@ -157,6 +157,18 @@ export default function Painel() {
                       >
                         ✏️ Editar Foto e Preço
                       </Button>
+                      <Button
+                        as={RouterLink}
+                        to="/buscar"
+                        variant="outline"
+                        colorScheme="teal"
+                        color="teal.300"
+                        borderColor="teal.500"
+                        _hover={{ bg: 'rgba(49, 151, 149, 0.15)', color: 'white' }}
+                        size="sm"
+                      >
+                        🤝 Buscar Parceiros / Equipe
+                      </Button>
                     </>
                   )}
 
