@@ -160,8 +160,12 @@ export default function BuscarBartenders() {
     <Box p={8}>
       <VStack spacing={8} align="stretch">
         <Box textAlign="center">
-          <Heading as="h1" size="xl" color="white">Encontre o Bartender Perfeito</Heading>
-          <Text mt={2} color="gray.400">Filtre por especialidade e ordene como preferir.</Text>
+          <Heading as="h1" size="xl" color="white">
+            Profissionais de Coquetelaria & Parcerias
+          </Heading>
+          <Text mt={2} color="gray.400" maxW="2xl" mx="auto">
+            Explore nossa rede de bartenders para eventos, casamentos e colaborações profissionais. Filtre por especialidade e ordene como preferir.
+          </Text>
         </Box>
 
         {/* Barra de Filtros */}
