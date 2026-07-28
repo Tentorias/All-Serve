@@ -291,20 +291,32 @@ service cloud.firestore {
                 <HStack spacing={3} mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
                   <Button
                     size="sm"
-                    colorScheme="green"
+                    colorScheme="teal"
+                    bg="teal.500"
+                    color="white"
+                    fontWeight="bold"
+                    _hover={{ bg: 'teal.400' }}
                     isLoading={processandoId === item.id}
                     onClick={() => atualizarStatus(item.id, 'aceito')}
                   >
-                    Aceitar Orçamento
+                    ✅ Aceitar Orçamento
                   </Button>
                   <Button
                     size="sm"
                     colorScheme="red"
                     variant="outline"
+                    color="red.300"
+                    borderColor="red.500"
+                    fontWeight="semibold"
+                    _hover={{
+                      bg: 'rgba(245, 101, 101, 0.15)',
+                      borderColor: 'red.300',
+                      color: 'red.200',
+                    }}
                     isLoading={processandoId === item.id}
                     onClick={() => atualizarStatus(item.id, 'recusado')}
                   >
-                    Recusar
+                    ❌ Recusar
                   </Button>
                 </HStack>
               )}
@@ -313,12 +325,20 @@ service cloud.firestore {
                 <HStack mt={4} pt={3} borderTop="1px solid" borderColor="#263147">
                   <Button
                     size="sm"
-                    colorScheme="gray"
+                    colorScheme="red"
                     variant="outline"
+                    color="red.300"
+                    borderColor="red.500"
+                    fontWeight="semibold"
+                    _hover={{
+                      bg: 'rgba(245, 101, 101, 0.15)',
+                      borderColor: 'red.300',
+                      color: 'white',
+                    }}
                     isLoading={processandoId === item.id}
                     onClick={() => atualizarStatus(item.id, 'cancelado')}
                   >
-                    Cancelar Solicitação
+                    ❌ Cancelar Solicitação
                   </Button>
                 </HStack>
               )}

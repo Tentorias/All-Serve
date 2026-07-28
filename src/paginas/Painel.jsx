@@ -125,6 +125,9 @@ export default function Painel() {
                         to="/bartenders"
                         variant="outline"
                         colorScheme="teal"
+                        color="teal.300"
+                        borderColor="teal.500"
+                        _hover={{ bg: 'rgba(49, 151, 149, 0.15)', color: 'white' }}
                         size="sm"
                       >
                         ⭐ Avaliar Bartenders
@@ -147,6 +150,9 @@ export default function Painel() {
                         to="/bartender/editar"
                         variant="outline"
                         colorScheme="teal"
+                        color="teal.300"
+                        borderColor="teal.500"
+                        _hover={{ bg: 'rgba(49, 151, 149, 0.15)', color: 'white' }}
                         size="sm"
                       >
                         ✏️ Editar Foto e Preço
