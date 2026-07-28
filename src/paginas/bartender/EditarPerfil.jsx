@@ -203,11 +203,11 @@ export default function EditarPerfil() {
           <Box className="glacial-badge" mb={2}>
             ✏️ Atualização de Dados
           </Box>
-          <Heading size="xl" color="teal.900" fontWeight="900">
+          <Heading size="xl" color="white" fontWeight="900">
             Editar Meu Perfil de <span className="glacial-text-gradient">Bartender</span>
           </Heading>
         </Box>
-        <Text color="gray.700" fontSize="md">
+        <Text color="cyan.100" fontSize="md">
           Atualize seus dados profissionais, preço por hora e foto de apresentação da comunidade.
         </Text>
         <Divider />
@@ -226,7 +226,7 @@ export default function EditarPerfil() {
               />
               <VStack align="start" spacing={1}>
                 <Text fontWeight="bold">Foto de Perfil</Text>
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="cyan.200">
                   Envie uma imagem do seu dispositivo (será convertida em Base64 compacta e salva sem custo no Firestore) ou use uma URL externa.
                 </Text>
               </VStack>

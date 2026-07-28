@@ -68,7 +68,7 @@ export default function Painel() {
               <Box className="glacial-badge" mb={2}>
                 ⚙️ Central do Usuário
               </Box>
-              <Heading size="xl" color="teal.900" fontWeight="900">
+              <Heading size="xl" color="white" fontWeight="900">
                 Meu <span className="glacial-text-gradient">Painel</span>
               </Heading>
             </Box>
@@ -76,12 +76,12 @@ export default function Painel() {
             {userData ? (
               <>
                 <Box>
-                  <Text fontSize="xl" fontWeight="600" color="gray.800">
+                  <Text fontSize="xl" fontWeight="600" color="white">
                     Bem-vindo, {userData.email}!
                   </Text>
-                  <Text fontSize="md" color="gray.600">
+                  <Text fontSize="md" color="cyan.200">
                     Seu perfil está autenticado no nível:{' '}
-                    <strong style={{ color: '#008080' }}>{userData.role?.toUpperCase()}</strong>
+                    <strong style={{ color: '#40d8ff' }}>{userData.role?.toUpperCase()}</strong>
                   </Text>
                 </Box>
 
@@ -89,10 +89,10 @@ export default function Painel() {
                 <VStack align="stretch" spacing={3} width="100%" pt={2}>
                   {userData.role === 'cliente' && (
                     <>
-                      <Link as={RouterLink} to="/buscar" color="teal.700" fontWeight="600" _hover={{ color: 'teal.500' }}>
+                      <Link as={RouterLink} to="/buscar" color="cyan.300" fontWeight="600" _hover={{ color: 'cyan.100' }}>
                         🍸 Buscar Bartenders Disponíveis
                       </Link>
-                      <Link as={RouterLink} to="/bartenders" color="teal.700" fontWeight="600" _hover={{ color: 'teal.500' }}>
+                      <Link as={RouterLink} to="/bartenders" color="cyan.300" fontWeight="600" _hover={{ color: 'cyan.100' }}>
                         ⭐ Avaliar Bartenders da Comunidade
                       </Link>
                     </>
@@ -100,10 +100,10 @@ export default function Painel() {
 
                   {userData.role === 'bartender' && (
                     <>
-                      <Link as={RouterLink} to={`/bartender/${currentUser.uid}`} color="teal.700" fontWeight="600" _hover={{ color: 'teal.500' }}>
+                      <Link as={RouterLink} to={`/bartender/${currentUser.uid}`} color="cyan.300" fontWeight="600" _hover={{ color: 'cyan.100' }}>
                         👁️ Ver Meu Perfil Público
                       </Link>
-                      <Link as={RouterLink} to="/bartender/editar" color="teal.700" fontWeight="800" _hover={{ color: 'teal.500' }}>
+                      <Link as={RouterLink} to="/bartender/editar" color="cyan.300" fontWeight="800" _hover={{ color: 'cyan.100' }}>
                         ✏️ Editar meu Perfil (Foto, Preço, Especialidade)
                       </Link>
                     </>
@@ -112,7 +112,7 @@ export default function Painel() {
                   {userData.role === 'administrador' && (
                     <>
                       <PainelAdmin />
-                      <Link as={RouterLink} to="/admin/moderar-avaliacoes" color="red.600" fontWeight="bold">
+                      <Link as={RouterLink} to="/admin/moderar-avaliacoes" color="red.300" fontWeight="bold">
                         🛡️ Moderar Avaliações do Sistema
                       </Link>
                     </>

@@ -1,4 +1,4 @@
-/* src/App.css - Estilos complementares Glacial Aero */
+/* src/App.css - Estilos complementares Dark Aero */
 
 #root {
   min-height: 100vh;
@@ -6,11 +6,10 @@
   flex-direction: column;
 }
 
-/* Animação suave para o brilho Aurora */
-@keyframes glacialPulse {
+@keyframes glacialPulseDark {
   0% {
     transform: scale(1);
-    opacity: 0.85;
+    opacity: 0.8;
   }
   50% {
     transform: scale(1.03);
@@ -18,29 +17,30 @@
   }
   100% {
     transform: scale(1);
-    opacity: 0.85;
+    opacity: 0.8;
   }
 }
 
 .glacial-pulse {
-  animation: glacialPulse 8s ease-in-out infinite;
+  animation: glacialPulseDark 8s ease-in-out infinite;
 }
 
-/* Rolagem elegante com barra estilo gelo */
+/* Rolagem estilo cristal Dark Aero */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(224, 247, 250, 0.4);
+  background: #070e18;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 180, 216, 0.4);
+  background: rgba(0, 180, 216, 0.5);
   border-radius: 9999px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 220, 255, 0.8);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 150, 195, 0.7);
+  background: rgba(0, 210, 255, 0.85);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.6);
 }

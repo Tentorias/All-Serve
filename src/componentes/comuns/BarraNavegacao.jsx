@@ -55,8 +55,8 @@ export default function BarraNavegacao() {
                 as={RouterLink}
                 to="/buscar"
                 fontWeight="600"
-                color="teal.900"
-                _hover={{ color: 'teal.500', textDecoration: 'none', transform: 'translateY(-1px)' }}
+                color="white"
+                _hover={{ color: 'cyan.300', textDecoration: 'none', transform: 'translateY(-1px)' }}
                 transition="all 0.2s"
               >
                 🍸 Buscar Bartenders
@@ -65,8 +65,8 @@ export default function BarraNavegacao() {
                 as={RouterLink}
                 to="/painel"
                 fontWeight="600"
-                color="teal.900"
-                _hover={{ color: 'teal.500', textDecoration: 'none', transform: 'translateY(-1px)' }}
+                color="white"
+                _hover={{ color: 'cyan.300', textDecoration: 'none', transform: 'translateY(-1px)' }}
                 transition="all 0.2s"
               >
                 📊 Meu Painel
@@ -75,11 +75,11 @@ export default function BarraNavegacao() {
                 px={3}
                 py={1}
                 borderRadius="full"
-                bg="rgba(0, 198, 255, 0.12)"
-                border="1px solid rgba(0, 198, 255, 0.3)"
+                bg="rgba(0, 198, 255, 0.15)"
+                border="1px solid rgba(0, 198, 255, 0.4)"
                 display={{ base: 'none', md: 'block' }}
               >
-                <Text fontSize="xs" fontWeight="bold" color="teal.800">
+                <Text fontSize="xs" fontWeight="bold" color="cyan.200">
                   ⚡ {currentUser.email?.split('@')[0]}
                 </Text>
               </Box>
@@ -99,8 +99,8 @@ export default function BarraNavegacao() {
                 as={RouterLink}
                 to="/login"
                 fontWeight="600"
-                color="teal.900"
-                _hover={{ color: 'teal.600', textDecoration: 'none' }}
+                color="white"
+                _hover={{ color: 'cyan.300', textDecoration: 'none' }}
               >
                 Entrar
               </Link>

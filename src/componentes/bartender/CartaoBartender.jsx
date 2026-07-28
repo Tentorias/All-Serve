@@ -53,14 +53,14 @@ export default function CartaoBartender({ bartender }) {
           bottom={0}
           left={0}
           right={0}
-          height="40px"
-          bgGradient="linear(to-t, rgba(255, 255, 255, 0.75), transparent)"
+          height="45px"
+          bgGradient="linear(to-t, rgba(13, 25, 42, 0.95), transparent)"
         />
       </Box>
 
       <VStack p={5} align="stretch" spacing={4} flex="1" justify="space-between">
         <VStack align="stretch" spacing={2}>
-          <Heading as="h3" size="md" noOfLines={1} color="teal.900" fontWeight="800">
+          <Heading as="h3" size="md" noOfLines={1} color="white" fontWeight="800">
             {nome || bartender.email?.split('@')[0] || 'Bartender'}
           </Heading>
 
@@ -84,11 +84,11 @@ export default function CartaoBartender({ bartender }) {
               borderRadius="full"
               border="1px solid rgba(255, 215, 0, 0.35)"
             >
-              <Icon as={IconeEstrela} color="yellow.500" />
-              <Text fontWeight="bold" fontSize="sm" color="gray.800">
+              <Icon as={IconeEstrela} color="yellow.400" />
+              <Text fontWeight="bold" fontSize="sm" color="white">
                 {mediaAvaliacao.toFixed(1)}
               </Text>
-              <Text color="gray.600" fontSize="xs">
+              <Text color="cyan.200" fontSize="xs">
                 ({totalAvaliacoes})
               </Text>
             </HStack>

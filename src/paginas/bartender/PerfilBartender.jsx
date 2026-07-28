@@ -174,7 +174,7 @@ export default function PerfilBartender() {
               className="glacial-avatar"
             />
             <VStack align={{ base: 'center', md: 'flex-start' }} spacing={3} flex={1}>
-              <Heading size="xl" color="teal.900" fontWeight="900">
+              <Heading size="xl" color="white" fontWeight="900">
                 {bartender.nome || bartender.email}
               </Heading>
               {bartender.especialidade && (
@@ -197,9 +197,9 @@ export default function PerfilBartender() {
                 borderRadius="full"
                 border="1px solid rgba(255, 215, 0, 0.35)"
               >
-                <Text fontSize="xl" fontWeight="800" color="gray.800">{media.toFixed(1)}</Text>
-                <Icon as={IconeEstrela} color="yellow.500" boxSize={6} />
-                <Text color="gray.600" fontSize="sm">({avaliacoes.length} avaliações)</Text>
+                <Text fontSize="xl" fontWeight="800" color="white">{media.toFixed(1)}</Text>
+                <Icon as={IconeEstrela} color="yellow.400" boxSize={6} />
+                <Text color="cyan.200" fontSize="sm">({avaliacoes.length} avaliações)</Text>
               </HStack>
             </VStack>
 

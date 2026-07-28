@@ -33,7 +33,7 @@ export default function Inicio() {
             fontWeight="900"
             lineHeight="1.1"
             maxW="850px"
-            color="teal.900"
+            color="white"
           >
             Bartenders Exclusivos.{' '}
             <Text as="span" className="glacial-text-gradient">
@@ -43,13 +43,13 @@ export default function Inicio() {
 
           <Text
             fontSize={{ base: 'lg', md: 'xl' }}
-            color="gray.700"
+            color="cyan.100"
             maxW="700px"
             fontWeight="500"
             lineHeight="1.7"
           >
             Conectamos anfitriões exigentes aos melhores profissionais de coquetelaria do mercado. 
-            Orçamentos transparentes, notas reais e agendamentos instantâneos com a pureza e o brilho do design Frutiger Aero.
+            Orçamentos transparentes, notas reais e agendamentos instantâneos com a pureza e o brilho noturno do design Dark Aero.
           </Text>
 
           {/* Botões de Ação */}
@@ -77,17 +77,17 @@ export default function Inicio() {
                 to="/cadastro"
                 size="lg"
                 variant="outline"
-                colorScheme="teal"
+                color="cyan.300"
                 px={8}
                 py={7}
                 fontSize="lg"
-                bg="rgba(255, 255, 255, 0.65)"
+                bg="rgba(9, 18, 31, 0.75)"
                 border="2px solid"
-                borderColor="teal.400"
+                borderColor="cyan.400"
                 _hover={{
-                  bg: 'rgba(255, 255, 255, 0.95)',
+                  bg: 'rgba(0, 198, 255, 0.15)',
                   transform: 'translateY(-2px)',
-                  boxShadow: '0 8px 25px rgba(0, 180, 216, 0.25)',
+                  boxShadow: '0 8px 25px rgba(0, 198, 255, 0.3)',
                 }}
               >
                 🍸 Sou Bartender
@@ -100,10 +100,10 @@ export default function Inicio() {
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} mt={14} mb={10}>
           <Box className="glacial-card" p={8} textAlign="left">
             <Text fontSize="4xl" mb={3}>🧊</Text>
-            <Heading size="md" mb={2} color="teal.900">
+            <Heading size="md" mb={2} color="white">
               Cristal & Gelo
             </Heading>
-            <Text color="gray.700" fontSize="sm">
+            <Text color="cyan.100" fontSize="sm">
               Profissionais especializados em coquetelaria molecular, drinks clássicos 
               e apresentações impecáveis em taças e copos de cristal.
             </Text>
@@ -111,10 +111,10 @@ export default function Inicio() {
 
           <Box className="glacial-card" p={8} textAlign="left">
             <Text fontSize="4xl" mb={3}>💎</Text>
-            <Heading size="md" mb={2} color="teal.900">
+            <Heading size="md" mb={2} color="white">
               Orçamentos sem Burocracia
             </Heading>
-            <Text color="gray.700" fontSize="sm">
+            <Text color="cyan.100" fontSize="sm">
               Calcule estimativas por hora de forma automática em tempo real e envie 
               solicitações de reserva direto pelo perfil público de cada bartender.
             </Text>
@@ -122,10 +122,10 @@ export default function Inicio() {
 
           <Box className="glacial-card" p={8} textAlign="left">
             <Text fontSize="4xl" mb={3}>🌐</Text>
-            <Heading size="md" mb={2} color="teal.900">
+            <Heading size="md" mb={2} color="white">
               Transparência & RBAC
             </Heading>
-            <Text color="gray.700" fontSize="sm">
+            <Text color="cyan.100" fontSize="sm">
               Avaliações autênticas em estrelas, comentários moderados e controle 
               de acesso seguro em nuvem alimentado pelo Firebase.
             </Text>
@@ -142,10 +142,10 @@ export default function Inicio() {
           overflow="hidden"
         >
           <VStack spacing={4}>
-            <Heading size="lg" color="teal.900">
+            <Heading size="lg" color="white">
               Pronto para transformar sua celebração?
             </Heading>
-            <Text color="gray.700" maxW="550px">
+            <Text color="cyan.100" maxW="550px">
               Explore nossa seleção de profissionais ou cadastre seus serviços na comunidade mais brilhante da coquetelaria.
             </Text>
             <Button

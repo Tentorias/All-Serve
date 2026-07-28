@@ -128,7 +128,7 @@ export default function ListaAgendamentos({ role }) {
   return (
     <Box mt={6}>
       <HStack justify="space-between" mb={4}>
-        <Heading size="md" color="teal.700">
+        <Heading size="md" color="white">
           {role === 'bartender'
             ? '📅 Solicitações de Orçamento / Agendamento Recebidas'
             : '📅 Meus Orçamentos e Reservas Solicitadas'}
@@ -139,8 +139,8 @@ export default function ListaAgendamentos({ role }) {
       </HStack>
 
       {agendamentos.length === 0 ? (
-        <Box p={6} borderWidth={1} borderRadius="lg" bg="gray.50" textAlign="center">
-          <Text color="gray.600">
+        <Box p={6} className="glacial-card" textAlign="center">
+          <Text color="cyan.100">
             {role === 'bartender'
               ? 'Você ainda não recebeu nenhuma solicitação de orçamento ou agendamento.'
               : 'Você ainda não fez nenhuma solicitação de agendamento com um bartender.'}
@@ -156,7 +156,7 @@ export default function ListaAgendamentos({ role }) {
               position="relative"
             >
               <HStack justify="space-between" mb={3}>
-                <Text fontWeight="900" fontSize="lg" color="teal.900">
+                <Text fontWeight="900" fontSize="lg" color="white">
                   🍸 {item.tipoEvento || 'Evento Especial'}
                 </Text>
                 {renderBadgeStatus(item.status)}
@@ -164,7 +164,7 @@ export default function ListaAgendamentos({ role }) {
 
               <Divider my={2} />
 
-              <VStack align="start" spacing={1.5} fontSize="sm" color="gray.700">
+              <VStack align="start" spacing={1.5} fontSize="sm" color="cyan.100">
                 <Text>
                   <strong>{role === 'bartender' ? 'Cliente:' : 'Bartender:'}</strong>{' '}
                   {role === 'bartender'

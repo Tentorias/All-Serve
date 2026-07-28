@@ -163,10 +163,10 @@ export default function BuscarBartenders() {
           <Box className="glacial-badge" mb={3}>
             🍸 Catálogo de Profissionais
           </Box>
-          <Heading as="h1" size="2xl" color="teal.900" fontWeight="900">
+          <Heading as="h1" size="2xl" color="white" fontWeight="900">
             Encontre o Bartender <span className="glacial-text-gradient">Perfeito</span>
           </Heading>
-          <Text mt={2} color="gray.700" fontSize="lg">
+          <Text mt={2} color="cyan.100" fontSize="lg">
             Filtre por especialidade e ordene como preferir em nossa comunidade exclusiva.
           </Text>
         </Box>
@@ -179,19 +179,17 @@ export default function BuscarBartenders() {
               value={filtroEspecialidade}
               onChange={(e) => setFiltroEspecialidade(e.target.value)}
               maxWidth="450px"
-              bg="rgba(255, 255, 255, 0.85)"
               border="1px solid rgba(0, 198, 255, 0.4)"
               borderRadius="12px"
-              _focus={{ borderColor: 'teal.500', boxShadow: '0 0 0 1px #319795' }}
+              _focus={{ borderColor: 'cyan.300', boxShadow: '0 0 0 1px #00d2ff' }}
             />
             <Select
               value={ordenacao}
               onChange={(e) => setOrdenacao(e.target.value)}
               maxWidth="260px"
-              bg="rgba(255, 255, 255, 0.85)"
               border="1px solid rgba(0, 198, 255, 0.4)"
               borderRadius="12px"
-              _focus={{ borderColor: 'teal.500', boxShadow: '0 0 0 1px #319795' }}
+              _focus={{ borderColor: 'cyan.300', boxShadow: '0 0 0 1px #00d2ff' }}
             >
               <option value="relevancia">⭐ Relevância</option>
               <option value="preco_asc">💲 Menor Preço</option>
