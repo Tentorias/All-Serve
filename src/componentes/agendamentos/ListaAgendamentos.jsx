@@ -32,12 +32,20 @@ export default function ListaAgendamentos({ role }) {
   const [agendamentos, setAgendamentos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [processandoId, setProcessandoId] = useState(null);
+  const [errorPermissao, setErrorPermissao] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const fetchAgendamentos = useCallback(async () => {
-    if (!currentUser) return;
+    if (!currentUser) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
+    setErrorPermissao(false);
+    setErrorMessage(null);
     try {
-      const campoBusca = role === 'bartender' ? 'bartenderId' : 'clienteId';
+      const roleNormalized = (role || 'cliente').toLowerCase().trim();
+      const campoBusca = roleNormalized === 'bartender' ? 'bartenderId' : 'clienteId';
       const q = query(
         collection(db, 'agendamentos'),
         where(campoBusca, '==', currentUser.uid)
@@ -49,17 +57,38 @@ export default function ListaAgendamentos({ role }) {
         ...docSnap.data(),
       }));
 
-      lista.sort((a, b) => (a.dataEvento > b.dataEvento ? 1 : -1));
+      lista.sort((a, b) => {
+        const dataA = a.dataEvento || '';
+        const dataB = b.dataEvento || '';
+        return dataA > dataB ? 1 : -1;
+      });
       setAgendamentos(lista);
     } catch (error) {
       console.error('Erro ao buscar agendamentos:', error);
-      toast({
-        title: 'Erro',
-        description: 'Não foi possível carregar a lista de agendamentos.',
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-      });
+      if (
+        error.code === 'permission-denied' ||
+        error.message?.toLowerCase().includes('permission') ||
+        error.message?.toLowerCase().includes('permiss')
+      ) {
+        setErrorPermissao(true);
+        toast({
+          title: 'Permissão Negada no Firestore',
+          description:
+            "O Firebase bloqueou a leitura da coleção 'agendamentos'. Verifique as Regras de Segurança no Firebase Console.",
+          status: 'error',
+          duration: 6000,
+          isClosable: true,
+        });
+      } else {
+        setErrorMessage(error.message || 'Não foi possível carregar a lista de agendamentos.');
+        toast({
+          title: 'Erro de Leitura',
+          description: error.message || 'Não foi possível carregar a lista de agendamentos.',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -136,7 +165,67 @@ export default function ListaAgendamentos({ role }) {
         </Button>
       </HStack>
 
-      {agendamentos.length === 0 ? (
+      {errorPermissao ? (
+        <Box
+          p={6}
+          borderWidth={1}
+          borderColor="orange.500"
+          bg="rgba(221, 107, 32, 0.1)"
+          borderRadius="xl"
+          color="white"
+          mb={6}
+        >
+          <Heading size="sm" color="orange.300" mb={2}>
+            ⚠️ Permissão Negada pelas Regras do Firestore (Rules)
+          </Heading>
+          <Text fontSize="sm" color="gray.300" mb={3}>
+            O Firebase bloqueou a leitura da coleção <strong>agendamentos</strong>. Para resolver em 10 segundos, acesse o <strong>Firebase Console &gt; Firestore Database &gt; Regras (Rules)</strong> e certifique-se de permitir leitura/escrita na coleção <code>agendamentos</code>:
+          </Text>
+          <Box
+            as="pre"
+            p={4}
+            bg="#0f131c"
+            borderRadius="md"
+            borderWidth={1}
+            borderColor="#263147"
+            fontSize="xs"
+            color="teal.300"
+            overflowX="auto"
+          >
+{`rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+    match /users/{userId}/avaliacoes/{avaliacaoId} {
+      allow read, write: if true;
+    }
+    match /agendamentos/{agendamentoId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}`}
+          </Box>
+        </Box>
+      ) : errorMessage ? (
+        <Box
+          p={6}
+          borderWidth={1}
+          borderColor="red.500"
+          bg="rgba(229, 62, 62, 0.1)"
+          borderRadius="xl"
+          color="white"
+          mb={6}
+        >
+          <Heading size="sm" color="red.300" mb={2}>
+            ⚠️ Não foi possível carregar a lista de agendamentos
+          </Heading>
+          <Text fontSize="sm" color="gray.300">
+            <strong>Motivo/Detalhes:</strong> {errorMessage}
+          </Text>
+        </Box>
+      ) : agendamentos.length === 0 ? (
         <Box
           p={6}
           borderWidth={1}

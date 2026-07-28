@@ -1,0 +1,19 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Permissão para coleção de usuários e subcoleções de avaliações
+    match /users/{userId} {
+      allow read, write: if true;
+
+      match /avaliacoes/{avaliacaoId} {
+        allow read, write: if true;
+      }
+    }
+
+    // Permissão para coleção de agendamentos e orçamentos
+    match /agendamentos/{agendamentoId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
